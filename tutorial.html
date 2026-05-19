@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ONNAILS – Tutorials</title>
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Montserrat:wght@300;400;500&family=Kalnia:wght@500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Allura&display=swap" rel="stylesheet">
+
+    <!-- Tailwind -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Custom CSS -->
+    <style>
+      body {
+        font-family: 'Montserrat', sans-serif;
+        margin: 0;
+        padding: 0;
+      }
+      
+      .script-font {
+        font-family: 'Allura', cursive;
+      }
+      .brand-font {
+        font-family: 'Playfair Display', serif;
+        letter-spacing: .25em;
+      }
+
+      .scrollbar-hide::-webkit-scrollbar {
+        display: none;
+      }
+      .scrollbar-hide {
+        -ms-overflow-style: none; 
+        scrollbar-width: none;    
+      }
+      
+      [x-cloak] { display: none !important; }
+    </style>
+  </head>
+
+  <body class="bg-white m-0 p-0">
+
+    <!-- TOP BAR -->
+    <div class="w-full bg-[#670F0D]">
+      <div class="flex items-center justify-center h-[53px] px-6">
+        <p class="text-white text-xs tracking-widest">
+          SCHEDULE YOUR CUSTOM NAIL DESIGN SESSION NOW
+        </p>
+      </div>
+    </div>
+
+    <!-- NAVBAR -->
+    <header x-data="{ searchOpen: false, query: '', results: [] }" class="w-full bg-white shadow-sm relative z-50" x-cloak>
+
+<!-- ================= SEARCH OVERLAY ================= -->
+<div x-show="searchOpen" x-cloak x-transition.opacity @keydown.escape.window="searchOpen = false" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-[999]">
+  <div @click.away="searchOpen = false" class="absolute top-[15%] left-1/2 -translate-x-1/2 w-[90%] max-w-xl bg-white rounded-2xl shadow-2xl p-6">
+    <input type="text" x-model="query" x-ref="input" @input="results = searchData.filter(i => i.title.toLowerCase().includes(query.toLowerCase()))" x-init="$watch('searchOpen', v => v && $nextTick(() => $refs.input.focus()))" placeholder="Search press-on nails, tutorials, styles..." class="w-full border border-gray-200 rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-[#CE8A97]"/>
+    <ul class="mt-4 space-y-2 text-sm">
+      <template x-if="query && results.length === 0"><li class="text-gray-400">No results found</li></template>
+      <template x-for="item in results" :key="item.url">
+        <li><a :href="item.url" @click="searchOpen = false" class="block px-4 py-2 rounded-lg hover:bg-[#CE8A97] hover:text-white transition"><span x-text="item.title"></span></a></li>
+      </template>
+    </ul>
+  </div>
+</div>
+
+<script>
+  const searchData = [
+    { title: "Home", url: "index.html" },
+    { title: "Almond Nails", url: "product/almond.html" },
+    { title: "Square Nails", url: "product/square.html" },
+    { title: "Stilettos Nails", url: "product/stilettos.html" },
+    { title: "Coffin Nails", url: "product/coffin.html" },
+    { title: "Press-On Nails", url: "press-on.html" },
+    { title: "Tutorial Measure Nails", url: "tutorial-measure.html" },
+    { title: "Tutorial Apply Nails", url: "tutorial-apply.html" },
+    { title: "Tutorial Care Nails", url: "tutorial-care.html" },
+    { title: "Booking", url: "booking.html" },
+    { title: "Collaboration", url: "collaboration.html" }
+  ];
+</script>
+      <div class="max-w-[1440px] h-[84px] mx-auto flex items-center px-6 relative">
+        <nav class="flex gap-4 font-[Kalnia] text-[14px] text-gray-800">
+          <a href="index.html" class="hover:text-[#CE8A97]">HOME</a>
+          <a href="our-service.html" class="hover:text-[#CE8A97]">OUR SERVICE</a>
+          <a href="press-on.html" class="hover:text-[#CE8A97]">PRESS-ON</a>
+          <div x-data="{ open: false }" @mouseenter="open = true" @mouseleave="open = false" class="relative">
+            <button class="flex items-center gap-1 hover:text-[#CE8A97]">
+              PRODUCT <i class="fa-solid fa-chevron-down text-[10px]"></i>
+            </button>
+            <div x-show="open" x-transition class="absolute top-full mt-3 w-44 bg-white border rounded-xl shadow-xl">
+              <a href="product/almond.html" class="block px-5 py-2 hover:bg-[#CE8A97] hover:text-white">ALMOND</a>
+              <a href="product/square.html" class="block px-5 py-2 hover:bg-[#CE8A97] hover:text-white">SQUARE</a>
+              <a href="product/stilettos.html" class="block px-5 py-2 hover:bg-[#CE8A97] hover:text-white">STILETTOS</a>
+              <a href="product/coffin.html" class="block px-5 py-2 hover:bg-[#CE8A97] hover:text-white">COFFIN</a>
+            </div>
+          </div>
+          <a href="tutorial.html" class="hover:text-[#CE8A97]">TUTORIALS</a>
+        </nav>
+        <div class="absolute left-1/2 -translate-x-1/2">
+          <img src="public/images/onnails.png" class="h-16 md:h-20" />
+        </div>
+        <div class="ml-auto flex items-center gap-10 text-gray-800 font-[Kalnia] text-[14px]">
+          <a href="collaboration.html" class="hover:text-[#CE8A97]">COLLABORATION</a>
+          <button @click="searchOpen = true" class="text-xl hover:text-[#CE8A97]">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor" class="w-6 h-6">
+              <circle cx="11" cy="11" r="7"/><line x1="16.65" y1="16.65" x2="21" y2="21"/>
+            </svg>
+          </button>
+          <button onclick="window.location.href='wishlist.html'">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor" class="w-6 h-6 hover:text-[#CE8A97] transition">
+              <rect x="3" y="3" width="18" height="18" rx="3"/><path d="M12 17s-4-2.5-4-5a2.5 2.5 0 0 1 4-2 2.5 2.5 0 0 1 4 2c0 2.5-4 5-4 5z"/>
+            </svg>
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <!-- HERO + DESCRIPTION -->
+    <section class="relative w-full bg-gradient-to-b from-[#FFFFFF] to-[#D89C9B] flex flex-col items-center justify-center py-24 md:py-32 px-6 text-center">
+      <h1 class="brand-font text-white text-3xl md:text-4xl tracking-[0.35em] mb-6">
+        WELCOME TO TUTORIALS
+      </h1>
+      <p class="max-w-3xl text-xs md:text-sm tracking-widest text-gray-600 leading-relaxed">
+        WELL-MAINTAINED NAILS ARE THE FINISHING TOUCH THAT RADIATES CONFIDENCE AND
+        ATTENTION TO DETAIL. BECAUSE TRUE BEAUTY LIES IN THE SMALL PERFECTIONS.
+      </p>
+    </section>
+
+    <!-- OUR GALLERY -->
+    <div class="w-full bg-[#670F0D] py-4 mb-16">
+      <h3 class="script-font text-center text-white text-7xl leading-none">
+        Tutorials
+      </h3>
+    </div>
+    
+    <!-- Container Gambar 3 Jajar -->
+    <div class="flex flex-col md:flex-row gap-6 justify-center px-6 mb-20">
+
+      <!-- CARD 1 -->
+      <a href="tutorial-measure.html" class="relative w-[378px] h-[544px] rounded-[28px] overflow-hidden group">
+        <img src="public/images/caraukur.jpg" 
+             class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" />
+        <div class="absolute bottom-0 left-0 w-full h-1/4 bg-white/10 backdrop-blur-sm flex items-end justify-center pb-6">
+          <p class="text-[#670F0D] text-sm tracking-wide font-medium">
+            HOW TO MEASURE YOUR NAILS
+          </p>
+        </div>
+      </a>
+
+      <!-- CARD 2 -->
+      <a href="tutorial-apply.html" class="relative w-[378px] h-[544px] rounded-[28px] overflow-hidden group">
+        <img src="public/images/3dnail.jpg" 
+             class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" />
+        <div class="absolute bottom-0 left-0 w-full h-1/4 bg-white/10 backdrop-blur-sm flex items-end justify-center pb-6">
+          <p class="text-[#670F0D] text-sm tracking-wide font-medium">
+            HOW TO APPLY YOUR NAILS
+          </p>
+        </div>
+      </a>
+
+      <!-- CARD 3 -->
+      <a href="tutorial-care.html" class="relative w-[378px] h-[544px] rounded-[28px] overflow-hidden group">
+        <img src="public/images/trikrawat.jpg" 
+             class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" />
+        <div class="absolute bottom-0 left-0 w-full h-1/4 bg-white/10 backdrop-blur-sm flex items-end justify-center pb-6">
+          <p class="text-[#670F0D] text-sm tracking-wide font-medium">
+            HOW TO CARE FOR YOUR PRESS-ON
+          </p>
+        </div>
+      </a>
+
+    </div>
+    
+    <section class="max-w-7xl mx-auto px-6 py-20">
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-start">
+  
+        <!-- LEFT : TEXT CONTENT -->
+        <div>
+          <h2 class="text-[#670F0D] font-[Playfair_Display] text-4xl font-semibold mb-10">
+            Nail Care Types
+          </h2>
+    
+          <div class="space-y-10 max-w-xl">
+            <!-- Prep Care -->
+            <div class="flex gap-5 items-start">
+              <div class="w-12 h-12 rounded-full bg-[#F3E1DF] flex items-center justify-center text-xl">
+                🧴
+              </div>
+              <div>
+                <h3 class="text-[#670F0D] text-xl font-semibold mb-1">
+                  Prep Care
+                </h3>
+                <p class="text-gray-600 leading-relaxed text-sm">
+                  This is the most important step before applying nail art. Nails and skin must be in prime condition for a long-lasting, well-groomed finish.
+                </p>
+              </div>
+            </div>
+    
+            <!-- Application -->
+            <div class="flex gap-5 items-start">
+              <div class="w-12 h-12 rounded-full bg-[#F3E1DF] flex items-center justify-center text-xl">
+                💅
+              </div>
+              <div>
+                <h3 class="text-[#670F0D] text-xl font-semibold mb-1">
+                  Application & Aesthetic Care
+                </h3>
+                <p class="text-gray-600 leading-relaxed text-sm">
+                  This type focuses on the process of painting and adding designs to create nail art. This can be a regular manicure, gel manicure, or extensions.
+                </p>
+              </div>
+            </div>
+    
+            <!-- Maintenance -->
+            <div class="flex gap-5 items-start">
+              <div class="w-12 h-12 rounded-full bg-[#F3E1DF] flex items-center justify-center text-xl">
+                ✨
+              </div>
+              <div>
+                <h3 class="text-[#670F0D] text-xl font-semibold mb-1">
+                  Maintenance Care
+                </h3>
+                <p class="text-gray-600 leading-relaxed text-sm">
+                  This treatment is done after the nail art is finished to maintain nail health and the appearance of the design to stay fresh for as long as possible.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+ 
+        <!-- RIGHT : DOUBLE IMAGE -->
+        <div class="relative w-[360px] md:w-[400px] aspect-[3/4] ml-20 select-none">
+          <!-- BACK IMAGE (miring) -->
+          <div id="imgBack"
+               class="absolute top-6 -left-6 w-full h-full
+                      rounded-2xl overflow-hidden shadow-lg
+                      rotate-[-6deg]
+                      z-0 cursor-pointer
+                      transition-all duration-500 ease-in-out">
+            <img src="public/images/belakang.jpg" alt="Nail Art Back" class="w-full h-full object-cover" />
+          </div>
+
+          <!-- FRONT IMAGE (lurus) -->
+          <div id="imgFront"
+               class="relative w-full h-full
+                      rounded-2xl overflow-hidden shadow-2xl
+                      z-10 cursor-pointer
+                      transition-all duration-500 ease-in-out">
+            <img src="public/images/depan.jpg" alt="Nail Art Front" class="w-full h-full object-cover" />
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="bg-white py-12 border-t border-gray-200 relative overflow-hidden">
+      <div class="max-w-[1440px] mx-auto px-6">
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-12 items-center">
+          <div class="flex justify-center md:justify-start md:ml-12">
+            <img src="public/images/onnailss.png" alt="ONNAILS Logo" class="h-40 md:h-44 object-contain">
+          </div>
+          <div class="text-center md:text-left">
+            <h3 class="font-[Kalnia] font-bold text-2xl tracking-wider mb-6 text-[#6B3A3A]">BOOKING</h3>        
+            <ul class="space-y-6 font-[Kalnia] text-lg tracking-widest text-gray-700">
+              <li><a href="https://wa.me/62895433711020" target="_blank" rel="noopener noreferrer" class="hover:text-[#CE8A97] transition">WHATSAPP</a></li>
+              <li><a href="https://s.shopee.co.id/6fd78uVutN?share_channel_code=1" target="_blank" rel="noopener noreferrer" class="hover:text-[#CE8A97] transition">SHOPEE</a></li>
+            </ul>        
+          </div>
+          <div class="relative text-center md:text-left">
+            <h3 class="font-[Kalnia] font-bold text-xl tracking-wider mb-6 text-[#6B3A3A]">SOCIAL MEDIA</h3>        
+            <ul class="space-y-7 font-[Kalnia] text-lg tracking-widest text-gray-700">
+              <li><a href="https://www.instagram.com/onnailssss" target="_blank" class="flex justify-center md:justify-start items-center gap-3 hover:text-[#CE8A97] transition"><i class="fa-brands fa-instagram"></i>Instagram</a></li>
+              <li><a href="https://www.tiktok.com/@onnailsss_?_r=1&_t=ZS-95HjEZLRVMg" target="_blank" class="flex justify-center md:justify-start items-center gap-3 hover:text-[#CE8A97] transition"><i class="fa-brands fa-tiktok"></i>TikTok</a></li>
+            </ul>
+          </div>
+          <img src="public/images/sabun.png" class="hidden md:block absolute -right-0 bottom-0 w-[120px] h-[120px] object-cover rounded-full opacity-80 -translate-y-16" />
+        </div>
+      </div>
+    </footer>
+
+    <script src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
+    <script>
+      const front = document.getElementById("imgFront");
+      const back = document.getElementById("imgBack");
+
+      front.addEventListener("click", () => {
+        front.classList.add("z-10", "scale-105", "rotate-0");
+        back.classList.remove("z-10", "scale-105");
+        back.classList.add("z-0", "rotate-[-6deg]");
+      });
+
+      back.addEventListener("click", () => {
+        back.classList.add("z-10", "scale-105", "rotate-0");
+        front.classList.remove("z-10", "scale-105");
+        front.classList.add("z-0");
+      });
+    </script>
+  </body>
+</html>

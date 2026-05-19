@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ONNAILS – How to Measure Your Nails</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Montserrat:wght@300;400;500&family=Kalnia:wght@500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    [x-cloak] { display: none !important; }
+  </style>
+</head>
+<body class="bg-white">
+  <div class="w-full bg-[#670F0D]">
+    <div class="flex items-center justify-center h-[53px] px-6">
+      <p class="text-white text-xs tracking-widest">SCHEDULE YOUR CUSTOM NAIL DESIGN SESSION NOW</p>
+    </div>
+  </div>
+  
+  <header x-data="{ searchOpen: false, query: '', results: [] }" class="w-full bg-white shadow-sm relative z-50" x-cloak>
+
+<!-- ================= SEARCH OVERLAY ================= -->
+<div x-show="searchOpen" x-cloak x-transition.opacity @keydown.escape.window="searchOpen = false" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-[999]">
+  <div @click.away="searchOpen = false" class="absolute top-[15%] left-1/2 -translate-x-1/2 w-[90%] max-w-xl bg-white rounded-2xl shadow-2xl p-6">
+    <input type="text" x-model="query" x-ref="input" @input="results = searchData.filter(i => i.title.toLowerCase().includes(query.toLowerCase()))" x-init="$watch('searchOpen', v => v && $nextTick(() => $refs.input.focus()))" placeholder="Search press-on nails, tutorials, styles..." class="w-full border border-gray-200 rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-[#CE8A97]"/>
+    <ul class="mt-4 space-y-2 text-sm">
+      <template x-if="query && results.length === 0"><li class="text-gray-400">No results found</li></template>
+      <template x-for="item in results" :key="item.url">
+        <li><a :href="item.url" @click="searchOpen = false" class="block px-4 py-2 rounded-lg hover:bg-[#CE8A97] hover:text-white transition"><span x-text="item.title"></span></a></li>
+      </template>
+    </ul>
+  </div>
+</div>
+
+<script>
+  const searchData = [
+    { title: "Home", url: "index.html" },
+    { title: "Almond Nails", url: "product/almond.html" },
+    { title: "Square Nails", url: "product/square.html" },
+    { title: "Stilettos Nails", url: "product/stilettos.html" },
+    { title: "Coffin Nails", url: "product/coffin.html" },
+    { title: "Press-On Nails", url: "press-on.html" },
+    { title: "Tutorial Measure Nails", url: "tutorial-measure.html" },
+    { title: "Tutorial Apply Nails", url: "tutorial-apply.html" },
+    { title: "Tutorial Care Nails", url: "tutorial-care.html" },
+    { title: "Booking", url: "booking.html" },
+    { title: "Collaboration", url: "collaboration.html" }
+  ];
+</script>
+
+    <div class="max-w-[1440px] h-[84px] mx-auto flex items-center px-6 relative">
+      <nav class="flex gap-4 font-[Kalnia] text-[14px] text-gray-800">
+        <a href="index.html" class="hover:text-[#CE8A97]">HOME</a>
+        <a href="our-service.html" class="hover:text-[#CE8A97]">OUR SERVICE</a>
+        <a href="press-on.html" class="hover:text-[#CE8A97]">PRESS-ON</a>
+        <a href="tutorial.html" class="hover:text-[#CE8A97]">TUTORIALS</a>
+      </nav>
+      <div class="absolute left-1/2 -translate-x-1/2"><img src="public/images/onnails.png" class="h-16 md:h-20" /></div>
+      <div class="ml-auto flex items-center gap-10 text-gray-800 font-[Kalnia]">
+        <a href="collaboration.html" class="hover:text-[#CE8A97]">COLLABORATION</a>
+        <button @click="searchOpen = true" class="text-xl hover:text-[#CE8A97]">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor" class="w-6 h-6">
+            <circle cx="11" cy="11" r="7"/><line x1="16.65" y1="16.65" x2="21" y2="21"/>
+          </svg>
+        </button>
+        <button onclick="window.location.href='wishlist.html'">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor" class="w-6 h-6 hover:text-[#CE8A97] transition">
+            <rect x="3" y="3" width="18" height="18" rx="3"/><path d="M12 17s-4-2.5-4-5a2.5 2.5 0 0 1 4-2 2.5 2.5 0 0 1 4 2c0 2.5-4 5-4 5z"/>
+          </svg>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <section class="max-w-7xl mx-auto px-6 py-20">
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-16 items-center">
+      <div>
+        <p class="text-[#670F0D] text-6xl mb-4" style="font-family: 'Allura', cursive;">Tutorials</p>
+        <h1 class="font-[Kalnia] font-bold text-[48px] leading-[100%] text-[#670F0D] mb-12">HOW TO MEASURE<br>YOUR NAILS</h1>
+        <div class="space-y-12">
+          <div>
+            <h3 class="font-[Kalnia] font-medium text-[24px] leading-[20px] text-[#670F0D] mb-4">1. Tape Measure Method (Measuring Width)</h3>
+            <p class="text-sm leading-relaxed max-w-xl text-gray-700">
+              Use a flexible tape measure (such as a tailor's tape measure) and measure the widest point of the nail bed (from sidewall to sidewall). Make sure to always record the measurement in millimeters (mm) for precision.
+            </p>
+          </div>
+          <div>
+            <h3 class="font-[Kalnia] font-medium text-[24px] leading-[20px] text-[#670F0D] mb-4">2. Tape Method (Marking and Measuring)</h3>
+            <p class="text-sm leading-relaxed max-w-xl text-gray-700">
+              Place a piece of clear tape horizontally across the widest part of your nail. Mark both outer edges of your nail with a pen, then remove the tape and measure the distance between the two marks using a ruler.
+            </p>
+          </div>
+          <div>
+            <h3 class="font-[Kalnia] font-medium text-[24px] leading-[20px] text-[#670F0D] mb-4">3. Sizing Kit Method</h3>
+            <p class="text-sm leading-relaxed max-w-xl text-gray-700">
+              This is the most accurate method for press-on nails. You directly try on various sizes of pre-numbered blank nails from the sizing kit provided by the seller. Note the nail number that fits perfectly on each finger.
+            </p>
+          </div>
+        </div>
+      </div>
+      <div class="relative rounded-2xl overflow-hidden shadow-lg max-h-[550px]">
+        <video 
+          class="w-full h-auto rounded-2xl" 
+          autoplay 
+          muted 
+          loop 
+          playsinline
+          controls>
+          <source src="public/images/WhatsApp Video 2026-04-14 at 19.29.27.mp4" type="video/mp4">
+          Your browser does not support the video tag.
+        </video>
+      </div>
+    </div>
+  </section>
+
+  <footer class="bg-white py-12 border-t border-gray-200 relative overflow-hidden">
+  <div class="max-w-[1440px] mx-auto px-6">
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-12 items-center">
+      <div class="flex justify-center md:justify-start md:ml-12">
+        <img src="public/images/onnailss.png" alt="ONNAILS Logo" class="h-40 md:h-44 object-contain">
+      </div>
+      <div class="text-center md:text-left mt-10 md:mt-16">
+        <h3 class="font-[Kalnia] font-bold text-3xl tracking-wider mb-10 text-[#6B3A3A]">BOOKING</h3>
+        <ul class="space-y-7 font-[Kalnia] text-lg tracking-widest text-gray-700">
+          <li><a href="https://wa.me/62895433711020" target="_blank" rel="noopener noreferrer" class="hover:text-[#CE8A97] transition">WHATSAPP</a></li>
+          <li><a href="https://s.shopee.co.id/6fd78uVutN?share_channel_code=1" target="_blank" rel="noopener noreferrer" class="hover:text-[#CE8A97] transition">SHOPEE</a></li>
+        </ul>
+      </div>
+      <div class="text-center md:text-left mt-10 md:mt-16">
+        <h3 class="font-[Kalnia] font-bold text-3xl tracking-wider mb-10 text-[#6B3A3A]">SOCIAL MEDIA</h3>
+        <ul class="space-y-8 font-[Kalnia] text-lg tracking-widest text-gray-700">
+          <li><a href="https://www.instagram.com/onnailssss" target="_blank" class="flex justify-center md:justify-start items-center gap-5 hover:text-[#CE8A97] transition"><i class="fa-brands fa-instagram text-xl"></i>Instagram</a></li>
+          <li><a href="https://www.tiktok.com/@onnailsss_?_r=1&_t=ZS-95HjEZLRVMg" target="_blank" class="flex justify-center md:justify-start items-center gap-5 hover:text-[#CE8A97] transition"><i class="fa-brands fa-tiktok text-xl"></i>TikTok</a></li>
+        </ul>
+      </div>
+      <img src="public/images/sabun.png" class="hidden md:block absolute -right-0 bottom-0 w-[120px] h-[120px] object-cover rounded-full opacity-80 -translate-y-16" />
+    </div>
+  </div>
+</footer>
+
+  <script src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
+</body>
+</html>
