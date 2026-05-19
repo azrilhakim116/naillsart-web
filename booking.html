@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>NaillsArt | Booking</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="container nav-wrap">
+      <a class="brand" href="index.html">NaillsArt</a>
+      <nav>
+        <a href="index.html">Home</a>
+        <a href="gallery.html">Gallery</a>
+        <a href="booking.html">Booking</a>
+        <a href="contact.html">Contact</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+    <section>
+      <h1>Book an Appointment</h1>
+      <p>Tell us your preferred service and schedule, and we will confirm your booking shortly.</p>
+    </section>
+
+    <section>
+      <form id="booking-form" class="booking-form" novalidate>
+        <label for="name">Full Name</label>
+        <input id="name" name="name" type="text" required>
+
+        <label for="email">Email</label>
+        <input id="email" name="email" type="email" required>
+
+        <label for="phone">Phone Number</label>
+        <input id="phone" name="phone" type="tel" required>
+
+        <label for="service">Service</label>
+        <select id="service" name="service" required>
+          <option value="">Select a service</option>
+          <option>Classic Manicure</option>
+          <option>Gel Nails</option>
+          <option>Custom Art</option>
+        </select>
+
+        <label for="date">Date</label>
+        <input id="date" name="date" type="date" required>
+
+        <label for="time">Time</label>
+        <input id="time" name="time" type="time" required>
+
+        <label for="notes">Special Request</label>
+        <textarea id="notes" name="notes" rows="4" placeholder="Design idea, preferred colors, etc."></textarea>
+
+        <button type="submit" class="button">Submit Booking</button>
+      </form>
+      <p id="booking-message" class="form-message" aria-live="polite"></p>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <p>&copy; 2026 NaillsArt. All rights reserved.</p>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
