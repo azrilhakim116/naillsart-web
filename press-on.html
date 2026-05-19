@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>ONNAILS â€“ Press-On Nails</title>
+    <title>ONNAILS – Press-On Nails</title>
   
     <!-- Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Montserrat:wght@300;400;500&family=Kalnia:wght@500&display=swap" rel="stylesheet">
@@ -11,8 +11,7 @@
   
     <!-- Tailwind -->
     <script src="https://cdn.tailwindcss.com"></script>
-  
-    <!-- Custom CSS -->
+  <link rel="stylesheet" href="public/css/style.css">
     <style>
       body {
         font-family: 'Montserrat', sans-serif;
@@ -204,7 +203,7 @@
 <!-- NAVBAR -->
 <header
   x-data="{ searchOpen: false, query: '', results: [] }"
-  class="w-full bg-white shadow-sm relative z-50"
+  class="w-full onnails-navbar relative"
   x-cloak
 >
 
@@ -517,7 +516,7 @@
 </section>
 
 <!-- FOOTER -->
-<footer class="bg-white py-12 border-t border-gray-200 relative overflow-hidden">
+<footer class="onnails-footer py-12 relative overflow-hidden">
   <div class="max-w-[1440px] mx-auto px-6">
     <div class="grid grid-cols-1 md:grid-cols-3 gap-12 items-center">
       <div class="flex justify-center md:justify-start md:ml-12">
@@ -526,8 +525,8 @@
       <div class="text-center md:text-left mt-10 md:mt-16">
         <h3 class="font-[Kalnia] font-bold text-3xl tracking-wider mb-10 text-[#6B3A3A]">BOOKING</h3>
         <ul class="space-y-7 font-[Kalnia] text-lg tracking-widest text-gray-700">
-          <li><a href="https://wa.me/62895433711020" target="_blank" rel="noopener noreferrer" class="hover:text-[#CE8A97] transition">WHATSAPP</a></li>
-          <li><a href="https://s.shopee.co.id/6fd78uVutN?share_channel_code=1" target="_blank" rel="noopener noreferrer" class="hover:text-[#CE8A97] transition">SHOPEE</a></li>
+          <li><a href="https://wa.me/62895433711020" target="_blank" rel="noopener noreferrer" class="footer-link">WHATSAPP</a></li>
+          <li><a href="https://s.shopee.co.id/6fd78uVutN?share_channel_code=1" target="_blank" rel="noopener noreferrer" class="footer-link">SHOPEE</a></li>
         </ul>
       </div>
       <div class="text-center md:text-left mt-10 md:mt-16">
@@ -543,5 +542,21 @@
 </footer>
 
 <script src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
-</body>
+<script>
+  // Navbar scroll effect
+  const navEl = document.querySelector('.onnails-navbar');
+  if (navEl) {
+    window.addEventListener('scroll', () => {
+      navEl.classList.toggle('scrolled', window.scrollY > 10);
+    });
+  }
+  // Section reveal
+  const sections = document.querySelectorAll('.section-hidden');
+  if (sections.length) {
+    const obs = new IntersectionObserver(entries => {
+      entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('section-show'); obs.unobserve(e.target); } });
+    }, { threshold: 0.12 });
+    sections.forEach(s => obs.observe(s));
+  }
+</script></body>
 </html>

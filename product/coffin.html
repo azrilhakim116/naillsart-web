@@ -3,10 +3,11 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>ONNAILS â€“ Coffin Press-On Nails</title>
+  <title>ONNAILS – Coffin Press-On Nails</title>
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Montserrat:wght@300;400;500&family=Kalnia:wght@500&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
   <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="../public/css/style.css">
   <style>
     body { font-family: 'Montserrat', sans-serif; }
     .brand-font { font-family: 'Playfair Display', serif; letter-spacing: .35em; }
@@ -21,7 +22,7 @@
     <p class="text-white text-xs tracking-[0.35em]">SCHEDULE YOUR CUSTOM NAIL DESIGN SESSION NOW</p>
   </div>
 </div>
-<header x-data="{ searchOpen: false, query: '', results: [] }" class="w-full bg-white shadow-sm relative z-50" x-cloak>
+<header x-data="{ searchOpen: false, query: '', results: [] }" class="w-full onnails-navbar relative" x-cloak>
 
 <!-- ================= SEARCH OVERLAY ================= -->
 <div x-show="searchOpen" x-cloak x-transition.opacity @keydown.escape.window="searchOpen = false" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-[999]">
@@ -112,7 +113,7 @@
     </div>
   </div>
 </section>
-<footer class="bg-white py-12 border-t border-gray-200 relative overflow-hidden">
+<footer class="onnails-footer py-12 relative overflow-hidden">
   <div class="max-w-[1440px] mx-auto px-6">
     <div class="grid grid-cols-1 md:grid-cols-3 gap-12 items-center">
       <div class="flex justify-center md:justify-start md:ml-12"><img src="../public/images/onnailss.png" class="h-40 md:h-44 object-contain"></div>
@@ -133,5 +134,21 @@
   </div>
 </footer>
 <script src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
-</body>
+<script>
+  // Navbar scroll effect
+  const navEl = document.querySelector('.onnails-navbar');
+  if (navEl) {
+    window.addEventListener('scroll', () => {
+      navEl.classList.toggle('scrolled', window.scrollY > 10);
+    });
+  }
+  // Section reveal
+  const sections = document.querySelectorAll('.section-hidden');
+  if (sections.length) {
+    const obs = new IntersectionObserver(entries => {
+      entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('section-show'); obs.unobserve(e.target); } });
+    }, { threshold: 0.12 });
+    sections.forEach(s => obs.observe(s));
+  }
+</script></body>
 </html>

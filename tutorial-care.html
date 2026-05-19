@@ -4,57 +4,107 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>ONNAILS – How to Care for Your Press-On</title>
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Montserrat:wght@300;400;500&family=Kalnia:wght@500&display=swap" rel="stylesheet">
+  <script src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Montserrat:wght@300;400;500&family=Kalnia:wght@500&family=Allura&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
   <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="public/css/style.css">
+  <style>[x-cloak] { display: none !important; }</style>
 </head>
-<body class="bg-white">
-  <div class="w-full bg-[#670F0D]">
-    <div class="flex items-center justify-center h-[53px] px-6">
-      <p class="text-white text-xs tracking-widest">SCHEDULE YOUR CUSTOM NAIL DESIGN SESSION NOW</p>
+<body class="bg-[#FFF8F7]">
+
+  <!-- Announcement Bar -->
+  <div class="announcement-bar w-full">
+    <div class="max-w-[1440px] h-[44px] mx-auto flex items-center justify-center relative z-10">
+      <p class="text-white text-[11px] tracking-widest">SCHEDULE YOUR CUSTOM NAIL DESIGN SESSION NOW</p>
     </div>
   </div>
-  
-  <section class="max-w-7xl mx-auto px-6 py-20">
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-16 items-center">
-      <div>
-        <p class="text-[#670F0D] text-6xl mb-4" style="font-family: 'Allura', cursive;">Tutorials</p>
-        <h1 class="font-[Kalnia] font-bold text-[48px] leading-[100%] text-[#670F0D] mb-12">HOW TO CARE FOR<br>YOUR PRESS-ON</h1>
-        <div class="space-y-8">
-          <div>
-            <h3 class="font-[Kalnia] font-medium text-[24px] text-[#670F0D] mb-4">Maintenance Tips</h3>
-            <p class="text-sm text-gray-700">Keep your press-ons clean by gently washing them with soap and water. Avoid harsh chemicals and excessive water exposure.</p>
-          </div>
-          <div>
-            <h3 class="font-[Kalnia] font-medium text-[24px] text-[#670F0D] mb-4">Storage</h3>
-            <p class="text-sm text-gray-700">Store your press-on nails in a cool, dry place away from direct sunlight. Use the original packaging when possible.</p>
-          </div>
-          <div>
-            <h3 class="font-[Kalnia] font-medium text-[24px] text-[#670F0D] mb-4">Longevity</h3>
-            <p class="text-sm text-gray-700">With proper care, press-on nails can be reused multiple times. Remove them gently by soaking in warm water to loosen adhesive.</p>
-          </div>
-          <div>
-            <h3 class="font-[Kalnia] font-medium text-[24px] text-[#670F0D] mb-4">When to Replace</h3>
-            <p class="text-sm text-gray-700">Replace your press-ons if they become damaged, chipped, or no longer fit properly. Quality nails from ONNAILS are built to last!</p>
-          </div>
+
+  <!-- NAVBAR -->
+  <header x-data="{ searchOpen: false, query: '', results: [] }" class="w-full onnails-navbar relative">
+    <div x-show="searchOpen" x-cloak x-transition.opacity @keydown.escape.window="searchOpen = false" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-[999]">
+      <div @click.away="searchOpen = false" class="absolute top-[15%] left-1/2 -translate-x-1/2 w-[90%] max-w-xl bg-white rounded-2xl shadow-2xl p-6 search-box">
+        <input type="text" x-model="query" x-ref="input" @input="results = searchData.filter(i => i.title.toLowerCase().includes(query.toLowerCase()))" x-init="$watch('searchOpen', v => v && $nextTick(() => $refs.input.focus()))" placeholder="Search press-on nails, tutorials, styles..." class="search-input w-full px-4 py-3"/>
+        <ul class="mt-4 space-y-2 text-sm">
+          <template x-if="query && results.length === 0"><li class="text-gray-400">No results found</li></template>
+          <template x-for="item in results" :key="item.url"><li><a :href="item.url" @click="searchOpen = false" class="block px-4 py-2 rounded-lg hover:bg-[#CE8A97] hover:text-white transition"><span x-text="item.title"></span></a></li></template>
+        </ul>
+      </div>
+    </div>
+    <script>
+      const searchData = [
+        { title: "Home", url: "index.html" }, { title: "Almond Nails", url: "product/almond.html" },
+        { title: "Square Nails", url: "product/square.html" }, { title: "Stilettos Nails", url: "product/stilettos.html" },
+        { title: "Coffin Nails", url: "product/coffin.html" }, { title: "Press-On Nails", url: "press-on.html" },
+        { title: "Tutorial Apply Nails", url: "tutorial-apply.html" }, { title: "Tutorial Care Nails", url: "tutorial-care.html" },
+        { title: "Tutorial Measure Nails", url: "tutorial-measure.html" }, { title: "Booking", url: "booking.html" }, { title: "Collaboration", url: "collaboration.html" }
+      ];
+    </script>
+    <div class="max-w-[1440px] h-[84px] mx-auto flex items-center px-6 relative">
+      <nav class="flex gap-4 font-[Kalnia] text-[14px] text-gray-800">
+        <a href="index.html" class="nav-link">HOME</a>
+        <a href="our-service.html" class="nav-link">OUR SERVICE</a>
+        <a href="press-on.html" class="nav-link">PRESS-ON</a>
+        <div x-data="{ open: false }" @mouseenter="open = true" @mouseleave="open = false" class="relative">
+          <button class="flex items-center gap-1 nav-link">PRODUCT <i class="fa-solid fa-chevron-down text-[10px]"></i></button>
+          <div x-show="open" x-cloak x-transition class="nav-dropdown"><a href="product/almond.html">ALMOND</a><a href="product/square.html">SQUARE</a><a href="product/stilettos.html">STILETTOS</a><a href="product/coffin.html">COFFIN</a></div>
         </div>
+        <a href="tutorial.html" class="nav-link active">TUTORIALS</a>
+      </nav>
+      <div class="absolute left-1/2 -translate-x-1/2"><img src="public/images/onnails.png" class="h-16 md:h-20" /></div>
+      <div class="ml-auto flex items-center gap-10 text-gray-800 font-[Kalnia] text-[14px]">
+        <a href="collaboration.html" class="nav-link">COLLABORATION</a>
+        <button @click="searchOpen = true" class="nav-link"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor" class="w-6 h-6"><circle cx="11" cy="11" r="7"/><line x1="16.65" y1="16.65" x2="21" y2="21"/></svg></button>
+        <button onclick="window.location.href='wishlist.html'" class="nav-link"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor" class="w-6 h-6"><rect x="3" y="3" width="18" height="18" rx="3"/><path d="M12 17s-4-2.5-4-5a2.5 2.5 0 0 1 4-2 2.5 2.5 0 0 1 4 2c0 2.5-4 5-4 5z"/></svg></button>
       </div>
-      <div class="relative rounded-2xl overflow-hidden shadow-lg max-h-[550px]">
-        <video 
-          class="w-full h-auto rounded-2xl" 
-          autoplay 
-          muted 
-          loop 
-          playsinline
-          controls>
-          <source src="public/images/WhatsApp Video 2026-04-14 at 19.29.27.mp4" type="video/mp4">
-          Your browser does not support the video tag.
-        </video>
-      </div>
+    </div>
+  </header>
+
+  <!-- Page Hero -->
+  <section class="bg-white py-16 text-center border-b border-[#F2D6D3]">
+    <p class="text-[#CE8A97] text-5xl mb-2" style="font-family:'Allura',cursive;">Tutorials</p>
+    <h1 class="font-[Kalnia] font-bold text-[36px] md:text-[48px] leading-tight text-[#6B3A3A]">HOW TO CARE FOR<br>YOUR PRESS-ON</h1>
+    <div class="flex items-center justify-center gap-3 mt-6">
+      <a href="tutorial-apply.html" class="btn-outline text-xs px-5 py-2">← APPLY</a>
+      <a href="tutorial-measure.html" class="btn-outline text-xs px-5 py-2">MEASURE →</a>
     </div>
   </section>
 
-  <footer class="bg-white py-12 border-t border-gray-200 relative overflow-hidden">
+  <!-- Content -->
+  <section class="max-w-4xl mx-auto px-6 py-20">
+    <div class="space-y-6">
+      <div class="tutorial-step">
+        <div class="tutorial-step-number">1</div>
+        <h3 class="font-[Kalnia] font-medium text-lg text-[#6B3A3A] mb-2">Daily Maintenance</h3>
+        <p class="text-sm text-gray-600 leading-relaxed">Keep your press-ons clean by gently wiping them with a soft cloth. Avoid harsh chemicals, bleach, and acetone-based products near the nail area.</p>
+      </div>
+      <div class="tutorial-step">
+        <div class="tutorial-step-number">2</div>
+        <h3 class="font-[Kalnia] font-medium text-lg text-[#6B3A3A] mb-2">Water & Activities</h3>
+        <p class="text-sm text-gray-600 leading-relaxed">Avoid prolonged water exposure — dishes, swimming, or long showers. Wear gloves when doing household chores to significantly extend wear time.</p>
+      </div>
+      <div class="tutorial-step">
+        <div class="tutorial-step-number">3</div>
+        <h3 class="font-[Kalnia] font-medium text-lg text-[#6B3A3A] mb-2">Proper Storage</h3>
+        <p class="text-sm text-gray-600 leading-relaxed">When not in use, store your press-on nails in the original packaging in a cool, dry place away from direct sunlight to preserve colour and shape.</p>
+      </div>
+      <div class="tutorial-step">
+        <div class="tutorial-step-number">4</div>
+        <h3 class="font-[Kalnia] font-medium text-lg text-[#6B3A3A] mb-2">Safe Removal & Reuse</h3>
+        <p class="text-sm text-gray-600 leading-relaxed">Soak nails in warm water for 5–10 minutes to loosen the adhesive. Gently peel from the side — never force them off. ONNAILS press-ons are designed for multiple uses!</p>
+      </div>
+      <div class="tutorial-step">
+        <div class="tutorial-step-number">5</div>
+        <h3 class="font-[Kalnia] font-medium text-lg text-[#6B3A3A] mb-2">When to Replace</h3>
+        <p class="text-sm text-gray-600 leading-relaxed">Replace your press-ons when they become chipped, cracked, or lose their shine. With proper care, each set can last weeks of wear and multiple uses.</p>
+      </div>
+    </div>
+    <div class="mt-12 text-center">
+      <a href="booking.html" class="btn-primary">BOOK YOUR APPOINTMENT</a>
+    </div>
+  </section>
+
+  <footer class="onnails-footer py-12 relative overflow-hidden">
   <div class="max-w-[1440px] mx-auto px-6">
     <div class="grid grid-cols-1 md:grid-cols-3 gap-12 items-center">
       <div class="flex justify-center md:justify-start md:ml-12">
@@ -63,8 +113,8 @@
       <div class="text-center md:text-left mt-10 md:mt-16">
         <h3 class="font-[Kalnia] font-bold text-3xl tracking-wider mb-10 text-[#6B3A3A]">BOOKING</h3>
         <ul class="space-y-7 font-[Kalnia] text-lg tracking-widest text-gray-700">
-          <li><a href="https://wa.me/62895433711020" target="_blank" rel="noopener noreferrer" class="hover:text-[#CE8A97] transition">WHATSAPP</a></li>
-          <li><a href="https://s.shopee.co.id/6fd78uVutN?share_channel_code=1" target="_blank" rel="noopener noreferrer" class="hover:text-[#CE8A97] transition">SHOPEE</a></li>
+          <li><a href="https://wa.me/62895433711020" target="_blank" rel="noopener noreferrer" class="footer-link">WHATSAPP</a></li>
+          <li><a href="https://s.shopee.co.id/6fd78uVutN?share_channel_code=1" target="_blank" rel="noopener noreferrer" class="footer-link">SHOPEE</a></li>
         </ul>
       </div>
       <div class="text-center md:text-left mt-10 md:mt-16">
@@ -78,5 +128,21 @@
     </div>
   </div>
 </footer>
-</body>
+<script>
+  // Navbar scroll effect
+  const navEl = document.querySelector('.onnails-navbar');
+  if (navEl) {
+    window.addEventListener('scroll', () => {
+      navEl.classList.toggle('scrolled', window.scrollY > 10);
+    });
+  }
+  // Section reveal
+  const sections = document.querySelectorAll('.section-hidden');
+  if (sections.length) {
+    const obs = new IntersectionObserver(entries => {
+      entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('section-show'); obs.unobserve(e.target); } });
+    }, { threshold: 0.12 });
+    sections.forEach(s => obs.observe(s));
+  }
+</script></body>
 </html>
