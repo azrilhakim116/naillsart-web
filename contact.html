@@ -3,13 +3,13 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>NaillsArt | Contact</title>
+  <title>NailsArt | Contact</title>
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
   <header class="site-header">
     <div class="container nav-wrap">
-      <a class="brand" href="index.html">NaillsArt</a>
+      <a class="brand" href="index.html">NailsArt</a>
       <nav>
         <a href="index.html">Home</a>
         <a href="gallery.html">Gallery</a>
@@ -35,25 +35,26 @@
       </article>
       <article class="card">
         <h2>Quick Message</h2>
-        <form>
+        <form id="contact-form" novalidate>
           <label for="contact-name">Name</label>
-          <input id="contact-name" type="text" required>
+          <input id="contact-name" name="name" type="text" required>
 
           <label for="contact-email">Email</label>
-          <input id="contact-email" type="email" required>
+          <input id="contact-email" name="email" type="email" required>
 
           <label for="contact-message">Message</label>
-          <textarea id="contact-message" rows="4" required></textarea>
+          <textarea id="contact-message" name="message" rows="4" required></textarea>
 
           <button type="submit" class="button">Send</button>
         </form>
+        <p id="contact-message-status" class="form-message" aria-live="polite"></p>
       </article>
     </section>
   </main>
 
   <footer class="site-footer">
     <div class="container">
-      <p>&copy; 2026 NaillsArt. All rights reserved.</p>
+      <p>&copy; 2026 NailsArt. All rights reserved.</p>
     </div>
   </footer>
 

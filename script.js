@@ -11,23 +11,42 @@
   var bookingForm = document.getElementById('booking-form');
   var bookingMessage = document.getElementById('booking-message');
 
-  if (!bookingForm || !bookingMessage) {
-    return;
+  if (bookingForm && bookingMessage) {
+    bookingForm.addEventListener('submit', function (event) {
+      event.preventDefault();
+
+      if (!bookingForm.checkValidity()) {
+        bookingMessage.textContent = 'Please complete all required fields before submitting.';
+        bookingMessage.className = 'form-message error';
+        bookingForm.reportValidity();
+        return;
+      }
+
+      var bookingName = bookingForm.elements.name.value.trim();
+      bookingMessage.textContent = 'Thank you, ' + bookingName + '! Your booking request has been received.';
+      bookingMessage.className = 'form-message success';
+      bookingForm.reset();
+    });
   }
 
-  bookingForm.addEventListener('submit', function (event) {
-    event.preventDefault();
+  var contactForm = document.getElementById('contact-form');
+  var contactStatus = document.getElementById('contact-message-status');
 
-    if (!bookingForm.checkValidity()) {
-      bookingMessage.textContent = 'Please complete all required fields before submitting.';
-      bookingMessage.className = 'form-message error';
-      bookingForm.reportValidity();
-      return;
-    }
+  if (contactForm && contactStatus) {
+    contactForm.addEventListener('submit', function (event) {
+      event.preventDefault();
 
-    var name = bookingForm.elements.name.value.trim();
-    bookingMessage.textContent = 'Thank you, ' + name + '! Your booking request has been received.';
-    bookingMessage.className = 'form-message success';
-    bookingForm.reset();
-  });
+      if (!contactForm.checkValidity()) {
+        contactStatus.textContent = 'Please complete all required fields before sending your message.';
+        contactStatus.className = 'form-message error';
+        contactForm.reportValidity();
+        return;
+      }
+
+      var contactName = contactForm.elements.name.value.trim();
+      contactStatus.textContent = 'Thanks, ' + contactName + '! Your message has been sent.';
+      contactStatus.className = 'form-message success';
+      contactForm.reset();
+    });
+  }
 })();
