@@ -4,7 +4,7 @@
   "description": "ONNAILS - Static HTML website for press-on nails business",
   "main": "index.html",
   "scripts": {
-    "serve": "npx http-server",
+    "serve": "npx http-server src/pages",
     "test": "echo \"This is a static website with no tests\""
   },
   "keywords": ["nails", "press-on", "nail-art"],
