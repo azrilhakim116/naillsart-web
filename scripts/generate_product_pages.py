@@ -1,9 +1,43 @@
-<!DOCTYPE html>
+import os
+
+# Product data
+products = {
+    'almond': {
+        'title': 'Almond Nails',
+        'description': 'Elegant and feminine almond-shaped press-on nails',
+        'about': '''Almond-shaped nails are characterized by their tapered sides and rounded tip, 
+					resembling the shape of an almond. This elegant shape elongates the fingers 
+					and is perfect for both casual and formal occasions.'''
+    },
+    'square': {
+        'title': 'Square Nails',
+        'description': 'Bold and modern square-shaped press-on nails',
+        'about': '''Square-shaped nails feature straight sides and edges that meet at a right angle. 
+					This chic and contemporary shape is perfect for making a statement 
+					and works beautifully with bold nail art designs.'''
+    },
+    'coffin': {
+        'title': 'Coffin Nails',
+        'description': 'Trendy and edgy coffin-shaped press-on nails',
+        'about': '''Coffin-shaped nails (also known as ballerina nails) combine the elegance of stiletto 
+					with a squared-off tip. This trendy shape is perfect for those who want 
+					a modern, edgy look with maximum style impact.'''
+    },
+    'stilettos': {
+        'title': 'Stiletto Nails',
+        'description': 'Dramatic and fierce stiletto-shaped press-on nails',
+        'about': '''Stiletto-shaped nails feature a long, pointed tip that creates a dramatic, 
+					fierce look. This bold shape is perfect for special occasions and those 
+					who want to make a statement with their nails.'''
+    }
+}
+
+html_template = '''<!DOCTYPE html>
 <html lang="en">
 <head>
 	<meta charset="UTF-8" />
 	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-	<title>Coffin Nails - ONNAILS</title>
+	<title>{title} - ONNAILS</title>
 	<script src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
 	<link rel="stylesheet" href="../public/css/style.css">
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
@@ -13,7 +47,7 @@
 </head>
 <body class="bg-[#f2d6d3]">
 
-<header x-data="{}" class="w-full onnails-navbar relative">
+<header x-data="{{}}" class="w-full onnails-navbar relative">
 	<div class="max-w-[1440px] mx-auto px-6 h-[80px] flex items-center justify-between">
 		<a href="../index.html" class="absolute left-1/2 -translate-x-1/2">
 			<img src="../public/images/onnails.png" class="h-16 md:h-20" />
@@ -24,21 +58,19 @@
 
 <section class="max-w-[1200px] mx-auto px-6 py-12">
 	<div class="text-center mb-8">
-		<h1 class="font-[Kalnia] text-4xl text-[#7A2E2E] mb-4">COFFIN NAILS</h1>
-		<p class="text-gray-600">Trendy and edgy coffin-shaped press-on nails</p>
+		<h1 class="font-[Kalnia] text-4xl text-[#7A2E2E] mb-4">{title_upper}</h1>
+		<p class="text-gray-600">{description}</p>
 	</div>
 	
 	<div class="grid md:grid-cols-2 gap-8 mb-12">
 		<div>
-			<img src="../public/images/coffin.png" class="w-full h-[500px] rounded-2xl shadow-lg object-cover" alt="Coffin Nails">
+			<img src="../public/images/{image}.png" class="w-full h-[500px] rounded-2xl shadow-lg object-cover" alt="{title}">
 		</div>
 		<div class="space-y-6">
 			<div>
-				<h2 class="font-[Kalnia] text-2xl text-[#7A2E2E] mb-4">About Coffin Nails</h2>
+				<h2 class="font-[Kalnia] text-2xl text-[#7A2E2E] mb-4">About {title}</h2>
 				<p class="text-gray-700 leading-relaxed">
-					Coffin-shaped nails (also known as ballerina nails) combine the elegance of stiletto 
-					with a squared-off tip. This trendy shape is perfect for those who want 
-					a modern, edgy look with maximum style impact.
+					{about}
 				</p>
 			</div>
 			
@@ -66,18 +98,7 @@
 	<div class="mt-16">
 		<h2 class="font-[Kalnia] text-3xl text-[#7A2E2E] mb-8 text-center">OTHER STYLES</h2>
 		<div class="grid grid-cols-2 md:grid-cols-3 gap-6">
-			<a href="./almond.html" class="group">
-				<img src="../public/images/almond.png" class="w-full h-48 object-cover rounded-xl mb-2 group-hover:scale-105 transition">
-				<p class="font-[Kalnia] text-center text-[#7A2E2E]">ALMOND NAILS</p>
-			</a>
-			<a href="./square.html" class="group">
-				<img src="../public/images/square.png" class="w-full h-48 object-cover rounded-xl mb-2 group-hover:scale-105 transition">
-				<p class="font-[Kalnia] text-center text-[#7A2E2E]">SQUARE NAILS</p>
-			</a>
-			<a href="./stilettos.html" class="group">
-				<img src="../public/images/stilettos.png" class="w-full h-48 object-cover rounded-xl mb-2 group-hover:scale-105 transition">
-				<p class="font-[Kalnia] text-center text-[#7A2E2E]">STILETTO NAILS</p>
-			</a>
+{other_products}
 		</div>
 	</div>
 </section>
@@ -116,3 +137,44 @@
 
 </body>
 </html>
+'''
+
+def generate_other_products_html(current_product):
+    """Generate HTML for other products grid"""
+    html_parts = []
+    for key, data in products.items():
+        if key != current_product:
+            html_parts.append(f'''			<a href="./{key}.html" class="group">
+				<img src="../public/images/{key}.png" class="w-full h-48 object-cover rounded-xl mb-2 group-hover:scale-105 transition">
+				<p class="font-[Kalnia] text-center text-[#7A2E2E]">{data['title'].upper()}</p>
+			</a>''')
+    return '\n'.join(html_parts)
+
+def main():
+    root_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+    product_dir = os.path.join(root_dir, 'product')
+    
+    print("🎨 Generating product pages...\n")
+    
+    for key, data in products.items():
+        other_products_html = generate_other_products_html(key)
+        
+        html_content = html_template.format(
+            title=data['title'],
+            title_upper=data['title'].upper(),
+            description=data['description'],
+            about=data['about'],
+            image=key,
+            other_products=other_products_html
+        )
+        
+        file_path = os.path.join(product_dir, f'{key}.html')
+        with open(file_path, 'w', encoding='utf-8') as f:
+            f.write(html_content)
+        
+        print(f"✅ Created: {key}.html")
+    
+    print(f"\n✨ Done! Created {len(products)} product pages.")
+
+if __name__ == "__main__":
+    main()
