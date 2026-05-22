@@ -44,9 +44,36 @@ nailart-app/
 
 This website can be deployed to any static hosting service:
 
+### Deploy to Vercel (Recommended)
+
+1. **Install Vercel CLI (Optional)**
+   ```bash
+   npm install -g vercel
+   ```
+
+2. **Deploy via CLI**
+   ```bash
+   vercel
+   ```
+   Follow the prompts to link your project.
+
+3. **Deploy via Vercel Website**
+   - Go to [vercel.com](https://vercel.com)
+   - Click "Add New Project"
+   - Import your Git repository (GitHub/GitLab/Bitbucket)
+   - Vercel will auto-detect settings
+   - Click "Deploy"
+
+4. **Manual Settings (if needed)**
+   - Framework Preset: `Other`
+   - Build Command: (leave empty)
+   - Output Directory: `./`
+   - Install Command: (leave empty)
+
+### Other Hosting Options
+
 - **GitHub Pages** - Push to `gh-pages` branch
 - **Netlify** - Connect repository and auto-deploy
-- **Vercel** - Drop and deploy
 - **Traditional Web Host** - FTP upload to public_html folder
 - **Local Testing** - `npx http-server` or any local server
 
