@@ -1,44 +1,4 @@
 {
-  "version": 2,
-  "builds": [
-    {
-      "src": "*.html",
-      "use": "@vercel/static"
-    },
-    {
-      "src": "public/**",
-      "use": "@vercel/static"
-    },
-    {
-      "src": "src/**",
-      "use": "@vercel/static"
-    },
-    {
-      "src": "product/**",
-      "use": "@vercel/static"
-    }
-  ],
-  "routes": [
-    {
-      "src": "/public/(.*)",
-      "dest": "/public/$1"
-    },
-    {
-      "src": "/src/(.*)",
-      "dest": "/src/$1"
-    },
-    {
-      "src": "/product/(.*)",
-      "dest": "/product/$1"
-    },
-    {
-      "handle": "filesystem"
-    },
-    {
-      "src": "/(.*)",
-      "dest": "/$1"
-    }
-  ],
   "cleanUrls": true,
   "trailingSlash": false
 }
