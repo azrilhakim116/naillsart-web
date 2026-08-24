@@ -1,118 +1,645 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
 	<meta charset="UTF-8" />
 	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 	<title>Coffin Nails - ONNAILS</title>
 	<script src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
-	<link rel="stylesheet" href="../css/style.css">
+	<link rel="stylesheet" href="../public/css/style.css">
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-	<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
-	<link href="https://fonts.googleapis.com/css2?family=Kalnia:wght@500&display=swap" rel="stylesheet">
+	<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Montserrat:wght@300;400;500;600&family=Bodoni+Moda:wght@400;600;700;800&family=Kalnia:wght@500&display=swap" rel="stylesheet">
 	<script src="https://cdn.tailwindcss.com"></script>
-</head>
-<body class="bg-[#f2d6d3]">
+	<style>
+		/* Modal Animations */
+		@keyframes fadeIn {
+			from {
+				opacity: 0;
+			}
+			to {
+				opacity: 1;
+			}
+		}
 
-<header x-data="{}" class="w-full onnails-navbar relative">
-	<div class="max-w-[1440px] mx-auto px-6 h-[80px] flex items-center justify-between">
-		<a href="../index.html" class="absolute left-1/2 -translate-x-1/2">
-			<img src="../images/onnails.png" class="h-16 md:h-20" />
-		</a>
-		<a href="../index.html" class="ml-auto text-gray-800 hover:text-[#CE8A97] font-[Kalnia]">← BACK TO HOME</a>
+		@keyframes scaleIn {
+			from {
+				opacity: 0;
+				transform: scale(0.9) translateY(20px);
+			}
+			to {
+				opacity: 1;
+				transform: scale(1) translateY(0);
+			}
+		}
+
+		.animate-fadeIn {
+			animation: fadeIn 0.3s ease-out;
+		}
+
+		.animate-scaleIn {
+			animation: scaleIn 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+		}
+
+		/* Card Click Hint */
+		.coffin-card:hover {
+			transform: scale(1.02);
+			transition: transform 0.3s ease;
+		}
+
+		/* Dropdown Menu Styling */
+		.dropdown-menu {
+			min-width: 200px;
+			box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+		}
+
+		.dropdown-menu a {
+			display: block;
+			padding: 12px 20px;
+			transition: all 0.3s ease;
+			border-left: 3px solid transparent;
+		}
+
+		.dropdown-menu a:hover {
+			background: linear-gradient(to right, #FFF5F7, #FFF);
+			border-left-color: #CE8A97;
+			padding-left: 24px;
+			color: #CE8A97;
+		}
+
+		.dropdown-menu a.active {
+			background: linear-gradient(to right, #FFF5F7, #FFF);
+			border-left-color: #CE8A97;
+			color: #CE8A97;
+			font-weight: 600;
+		}
+
+		@keyframes dropdownSlide {
+			from {
+				opacity: 0;
+				transform: translateY(-10px);
+			}
+			to {
+				opacity: 1;
+				transform: translateY(0);
+			}
+		}
+
+		.dropdown-animate {
+			animation: dropdownSlide 0.3s ease-out;
+		}
+	</style>
+</head>
+<body class="bg-white">
+
+<!-- ================= NAVBAR (WHITE) ================= -->
+<header class="onnails-navbar">
+	<div class="max-w-[1440px] mx-auto h-[70px] flex items-center px-3 md:px-6 relative">
+		<!-- Left Menu - Hidden on mobile -->
+		<nav class="hidden lg:flex gap-6 font-['Bodoni_Moda'] text-[13px] tracking-[0.15em] text-gray-800">
+			<a href="../index.html" class="hover:text-[#CE8A97]">HOME</a>
+			<a href="../our-service.html" class="hover:text-[#CE8A97]">OUR SERVICE</a>
+			<a href="../press-on.html" class="hover:text-[#CE8A97]">PRESS-ON</a>
+			
+			<!-- Product Dropdown -->
+			<div class="relative" x-data="{ open: false }" @mouseenter="open = true" @mouseleave="open = false">
+				<button class="text-[#CE8A97] hover:text-[#B67882] flex items-center gap-1 transition-colors">
+					PRODUCT
+					<i class="fas fa-chevron-down text-[10px] transition-transform duration-300" :class="{ 'rotate-180': open }"></i>
+				</button>
+				<div x-show="open" 
+				     x-transition:enter="transition ease-out duration-200"
+				     x-transition:enter-start="opacity-0 transform scale-95"
+				     x-transition:enter-end="opacity-100 transform scale-100"
+				     x-transition:leave="transition ease-in duration-150"
+				     x-transition:leave-start="opacity-100 transform scale-100"
+				     x-transition:leave-end="opacity-0 transform scale-95"
+				     class="absolute top-full left-0 mt-2 bg-white rounded-xl shadow-2xl overflow-hidden dropdown-menu dropdown-animate z-50"
+				     style="display: none;">
+					<a href="../product/almond.html" class="font-['Bodoni_Moda'] text-[13px] tracking-[0.15em] text-gray-800">
+						<i class="fas fa-gem text-pink-400 mr-2"></i> ALMOND
+					</a>
+					<a href="../product/coffin.html" class="font-['Bodoni_Moda'] text-[13px] tracking-[0.15em] text-gray-800 active">
+						<i class="fas fa-chess-queen text-pink-400 mr-2"></i> COFFIN
+					</a>
+					<a href="../product/square.html" class="font-['Bodoni_Moda'] text-[13px] tracking-[0.15em] text-gray-800">
+						<i class="fas fa-square text-pink-400 mr-2"></i> SQUARE
+					</a>
+					<a href="../product/stilettos.html" class="font-['Bodoni_Moda'] text-[13px] tracking-[0.15em] text-gray-800">
+						<i class="fas fa-crown text-pink-400 mr-2"></i> STILETTOS
+					</a>
+				</div>
+			</div>
+			
+			<a href="../tutorial.html" class="hover:text-[#CE8A97]">TUTORIALS</a>
+		</nav>
+		<!-- Center Logo -->
+		<div class="absolute left-1/2 -translate-x-1/2">
+			<img src="../public/images/onnailss.png" alt="ONNAILS" class="h-16 md:h-20 lg:h-24" />
+		</div>
+		<!-- Right Menu -->
+		<div class="ml-auto flex items-center gap-3 md:gap-6 font-['Bodoni_Moda'] text-[13px] tracking-[0.15em] text-gray-800">
+			<a href="../collaboration.html" class="hidden lg:inline hover:text-[#CE8A97]">COLLABORATIONS</a>
+			<button class="hover:text-[#CE8A97]"><i class="fa-regular fa-user text-base md:text-lg"></i></button>
+			<button class="hover:text-[#CE8A97]"><i class="fa-solid fa-magnifying-glass text-base md:text-lg"></i></button>
+			<a href="../wishlist.html" class="hover:text-[#CE8A97]"><i class="fa-regular fa-bookmark text-base md:text-lg"></i></a>
+		</div>
 	</div>
 </header>
 
-<section class="max-w-[1200px] mx-auto px-6 py-12">
-	<div class="text-center mb-8">
-		<h1 class="font-[Kalnia] text-4xl text-[#7A2E2E] mb-4">COFFIN NAILS</h1>
-		<p class="text-gray-600">Trendy and edgy coffin-shaped press-on nails</p>
+<!-- ================= MARQUEE BAR ================= -->
+<div class="marquee-bar">
+	<div class="marquee-track">
+		<span>SCHEDULE YOUR CUSTOM NAIL DESIGN SESSION NOW</span>
+		<span>SCHEDULE YOUR CUSTOM NAIL DESIGN SESSION NOW</span>
+		<span>SCHEDULE YOUR CUSTOM NAIL DESIGN SESSION NOW</span>
 	</div>
+</div>
+
+<!-- ================= HERO SECTION - COFFIN ================= -->
+<section class="bg-gradient-to-b from-pink-100 to-rose-50 py-16 md:py-20 relative overflow-hidden">
+	<!-- Decorative circles -->
+	<div class="absolute top-0 left-1/4 w-[200px] h-[200px] md:w-[400px] md:h-[400px] bg-pink-200/30 rounded-full blur-3xl animate-fadeInUp" style="animation-delay: 0.2s;"></div>
+	<div class="absolute bottom-0 right-1/4 w-[250px] h-[250px] md:w-[500px] md:h-[500px] bg-rose-200/25 rounded-full blur-3xl animate-fadeInUp" style="animation-delay: 0.4s;"></div>
 	
-	<div class="grid md:grid-cols-2 gap-8 mb-12">
-		<div>
-			<img src="../images/coffin.png" class="w-full h-[500px] rounded-2xl shadow-lg object-cover" alt="Coffin Nails">
-		</div>
-		<div class="space-y-6">
-			<div>
-				<h2 class="font-[Kalnia] text-2xl text-[#7A2E2E] mb-4">About Coffin Nails</h2>
-				<p class="text-gray-700 leading-relaxed">
-					Coffin-shaped nails (also known as ballerina nails) combine the elegance of stiletto 
-					with a squared-off tip. This trendy shape is perfect for those who want 
-					a modern, edgy look with maximum style impact.
-				</p>
-			</div>
-			
-			<div>
-				<h3 class="font-[Kalnia] text-xl text-[#7A2E2E] mb-3">Features:</h3>
-				<ul class="space-y-2 text-gray-700">
-					<li>✨ Premium quality materials</li>
-					<li>✨ Easy to apply and remove</li>
-					<li>✨ Reusable and durable</li>
-					<li>✨ Perfect fit for all nail sizes</li>
-					<li>✨ Includes application kit</li>
-				</ul>
-			</div>
-			
-			<div class="pt-6">
-				<a href="https://s.shopee.co.id/6fd78uVutN?share_channel_code=1" 
-				   target="_blank"
-				   class="inline-block px-8 py-4 bg-[#D89C9B] text-white font-[Kalnia] tracking-wider rounded-full hover:bg-[#CE8A97] transition">
-					ORDER NOW ON SHOPEE
-				</a>
-			</div>
-		</div>
-	</div>
-	
-	<div class="mt-16">
-		<h2 class="font-[Kalnia] text-3xl text-[#7A2E2E] mb-8 text-center">OTHER STYLES</h2>
-		<div class="grid grid-cols-2 md:grid-cols-3 gap-6">
-			<a href="./almond.html" class="group">
-				<img src="../images/almond.png" class="w-full h-48 object-cover rounded-xl mb-2 group-hover:scale-105 transition">
-				<p class="font-[Kalnia] text-center text-[#7A2E2E]">ALMOND NAILS</p>
-			</a>
-			<a href="./square.html" class="group">
-				<img src="../images/square.png" class="w-full h-48 object-cover rounded-xl mb-2 group-hover:scale-105 transition">
-				<p class="font-[Kalnia] text-center text-[#7A2E2E]">SQUARE NAILS</p>
-			</a>
-			<a href="./stilettos.html" class="group">
-				<img src="../images/stilettos.png" class="w-full h-48 object-cover rounded-xl mb-2 group-hover:scale-105 transition">
-				<p class="font-[Kalnia] text-center text-[#7A2E2E]">STILETTO NAILS</p>
-			</a>
+	<div class="max-w-[1200px] mx-auto px-4 md:px-6 relative z-10">
+		<div class="text-center mb-8 md:mb-12 scroll-reveal">
+			<h1 class="font-['Bodoni_Moda'] font-bold text-5xl md:text-6xl lg:text-8xl text-[#7A2E2E] tracking-[0.3em] md:tracking-[0.4em] mb-6 md:mb-8 animate-fadeInUp">
+				COFFIN
+			</h1>
+			<p class="font-['Bodoni_Moda'] text-xs md:text-sm lg:text-base text-gray-700 leading-relaxed max-w-4xl mx-auto px-4 tracking-[0.15em] md:tracking-[0.2em] animate-fadeInUp" style="animation-delay: 0.1s;">
+				THE COFFIN SHAPE (ALSO KNOWN AS BALLERINA) COMBINES ELEGANCE WITH EDGE, FEATURING<br class="hidden md:block"/> 
+				LONG TAPERED SIDES AND A SQUARED-OFF TIP. THIS TRENDY SHAPE IS PERFECT<br class="hidden md:block"/> 
+				FOR THOSE WHO WANT A MODERN, SOPHISTICATED LOOK WITH MAXIMUM STYLE IMPACT
+			</p>
 		</div>
 	</div>
 </section>
 
-<footer class="onnails-footer py-12">
-	<div class="max-w-[1440px] mx-auto px-6">
-		<div class="grid grid-cols-1 md:grid-cols-3 gap-12 items-center">
-			<div class="flex justify-center md:justify-start">
-				<img src="../images/onnailss.png" alt="ONNAILS Logo" class="h-32 object-contain">
-			</div>
-			<div class="text-center md:text-left">
-				<h3 class="font-[Kalnia] text-xl text-[#6B3A3A] mb-4">BOOKING</h3>
-				<div class="space-y-3 font-[Kalnia]">
-					<a href="https://wa.me/62895433711020" target="_blank" class="block hover:text-[#CE8A97]">
-						<i class="fa-brands fa-whatsapp"></i> WhatsApp
-					</a>
-					<a href="https://s.shopee.co.id/6fd78uVutN?share_channel_code=1" target="_blank" class="block hover:text-[#CE8A97]">
-						Shopee
-					</a>
-				</div>
-			</div>
-			<div class="text-center md:text-left">
-				<h3 class="font-[Kalnia] text-xl text-[#6B3A3A] mb-4">SOCIAL MEDIA</h3>
-				<div class="space-y-3 font-[Kalnia]">
-					<a href="https://www.instagram.com/onnailssss" target="_blank" class="block hover:text-[#CE8A97]">
-						<i class="fa-brands fa-instagram"></i> Instagram
-					</a>
-					<a href="https://www.tiktok.com/@onnailsss_?_r=1&_t=ZS-95HjEZLRVMg" target="_blank" class="block hover:text-[#CE8A97]">
-						<i class="fa-brands fa-tiktok"></i> TikTok
-					</a>
+<!-- ================= MAIN IMAGE SECTION ================= -->
+<section class="bg-gradient-to-b from-rose-50 to-white py-12 md:py-16">
+	<div class="max-w-[1200px] mx-auto px-4 md:px-6">
+		<div class="glass-card-modern p-6 md:p-8 scroll-reveal">
+			<div class="relative rounded-3xl md:rounded-[3rem] overflow-hidden shadow-2xl group">
+				<img src="../public/images/coffin.png" alt="Coffin Nails" class="w-full h-[350px] md:h-[600px] object-cover transform group-hover:scale-105 transition-transform duration-1000" />
+				<div class="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent"></div>
+				<div class="absolute bottom-6 left-6 md:bottom-10 md:left-10">
+					<span class="font-['Bodoni_Moda'] text-3xl md:text-5xl lg:text-6xl text-white tracking-[0.3em] md:tracking-[0.4em] font-bold drop-shadow-2xl">
+						COFFIN
+					</span>
 				</div>
 			</div>
 		</div>
 	</div>
+</section>
+
+<!-- ================= GALLERY SECTION ================= -->
+<section class="bg-gradient-to-b from-white to-pink-50/30 py-16 md:py-20">
+	<div class="max-w-[1400px] mx-auto px-4 md:px-6">
+		<div class="text-center mb-12 scroll-reveal">
+			<h2 class="font-['Bodoni_Moda'] font-bold text-3xl md:text-4xl lg:text-5xl text-[#7A2E2E] tracking-[0.2em] md:tracking-[0.3em] mb-4">
+				OUR COLLECTION
+			</h2>
+			<div class="flex justify-center gap-2 mt-6">
+				<div class="w-16 h-1 bg-gradient-to-r from-[#CE8A97] to-transparent rounded-full"></div>
+				<div class="w-16 h-1 bg-gradient-to-r from-[#D4A5A5] to-transparent rounded-full"></div>
+				<div class="w-16 h-1 bg-gradient-to-r from-[#C99999] to-transparent rounded-full"></div>
+			</div>
+		</div>
+		
+		<!-- Modern Card Grid - 8 Photos -->
+		<div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6">
+			<!-- Card 1 -->
+			<div class="coffin-card scroll-reveal group">
+				<div class="relative overflow-hidden rounded-2xl md:rounded-3xl shadow-lg hover:shadow-2xl transition-all duration-500">
+					<div class="aspect-[3/4] overflow-hidden">
+						<img src="../public/images/coffin1.jpg" alt="Coffin Design 1" class="w-full h-full object-cover transform group-hover:scale-110 group-hover:rotate-2 transition-all duration-700" />
+					</div>
+					<div class="absolute inset-0 bg-gradient-to-t from-pink-900/80 via-pink-500/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+					<div class="absolute bottom-0 left-0 right-0 p-4 transform translate-y-full group-hover:translate-y-0 transition-transform duration-500">
+						<div class="flex items-center justify-between">
+							<span class="font-['Bodoni_Moda'] text-white text-sm md:text-base tracking-[0.2em] font-semibold drop-shadow-lg">DESIGN 01</span>
+							<div class="w-8 h-8 rounded-full bg-white/20 backdrop-blur-sm flex items-center justify-center">
+								<i class="fas fa-heart text-white text-xs"></i>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<!-- Card 2 -->
+			<div class="coffin-card scroll-reveal group">
+				<div class="relative overflow-hidden rounded-2xl md:rounded-3xl shadow-lg hover:shadow-2xl transition-all duration-500">
+					<div class="aspect-[3/4] overflow-hidden">
+						<img src="../public/images/coffin2.jpg" alt="Coffin Design 2" class="w-full h-full object-cover transform group-hover:scale-110 group-hover:rotate-2 transition-all duration-700" />
+					</div>
+					<div class="absolute inset-0 bg-gradient-to-t from-pink-900/80 via-pink-500/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+					<div class="absolute bottom-0 left-0 right-0 p-4 transform translate-y-full group-hover:translate-y-0 transition-transform duration-500">
+						<div class="flex items-center justify-between">
+							<span class="font-['Bodoni_Moda'] text-white text-sm md:text-base tracking-[0.2em] font-semibold drop-shadow-lg">DESIGN 02</span>
+							<div class="w-8 h-8 rounded-full bg-white/20 backdrop-blur-sm flex items-center justify-center">
+								<i class="fas fa-heart text-white text-xs"></i>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<!-- Card 3 -->
+			<div class="coffin-card scroll-reveal group">
+				<div class="relative overflow-hidden rounded-2xl md:rounded-3xl shadow-lg hover:shadow-2xl transition-all duration-500">
+					<div class="aspect-[3/4] overflow-hidden">
+						<img src="../public/images/coffin3.jpg" alt="Coffin Design 3" class="w-full h-full object-cover transform group-hover:scale-110 group-hover:rotate-2 transition-all duration-700" />
+					</div>
+					<div class="absolute inset-0 bg-gradient-to-t from-pink-900/80 via-pink-500/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+					<div class="absolute bottom-0 left-0 right-0 p-4 transform translate-y-full group-hover:translate-y-0 transition-transform duration-500">
+						<div class="flex items-center justify-between">
+							<span class="font-['Bodoni_Moda'] text-white text-sm md:text-base tracking-[0.2em] font-semibold drop-shadow-lg">DESIGN 03</span>
+							<div class="w-8 h-8 rounded-full bg-white/20 backdrop-blur-sm flex items-center justify-center">
+								<i class="fas fa-heart text-white text-xs"></i>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<!-- Card 4 -->
+			<div class="coffin-card scroll-reveal group">
+				<div class="relative overflow-hidden rounded-2xl md:rounded-3xl shadow-lg hover:shadow-2xl transition-all duration-500">
+					<div class="aspect-[3/4] overflow-hidden">
+						<img src="../public/images/coffin4.jpg" alt="Coffin Design 4" class="w-full h-full object-cover transform group-hover:scale-110 group-hover:rotate-2 transition-all duration-700" />
+					</div>
+					<div class="absolute inset-0 bg-gradient-to-t from-pink-900/80 via-pink-500/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+					<div class="absolute bottom-0 left-0 right-0 p-4 transform translate-y-full group-hover:translate-y-0 transition-transform duration-500">
+						<div class="flex items-center justify-between">
+							<span class="font-['Bodoni_Moda'] text-white text-sm md:text-base tracking-[0.2em] font-semibold drop-shadow-lg">DESIGN 04</span>
+							<div class="w-8 h-8 rounded-full bg-white/20 backdrop-blur-sm flex items-center justify-center">
+								<i class="fas fa-heart text-white text-xs"></i>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<!-- Card 5 -->
+			<div class="coffin-card scroll-reveal group">
+				<div class="relative overflow-hidden rounded-2xl md:rounded-3xl shadow-lg hover:shadow-2xl transition-all duration-500">
+					<div class="aspect-[3/4] overflow-hidden">
+						<img src="../public/images/coffin5.jpg" alt="Coffin Design 5" class="w-full h-full object-cover transform group-hover:scale-110 group-hover:rotate-2 transition-all duration-700" />
+					</div>
+					<div class="absolute inset-0 bg-gradient-to-t from-pink-900/80 via-pink-500/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+					<div class="absolute bottom-0 left-0 right-0 p-4 transform translate-y-full group-hover:translate-y-0 transition-transform duration-500">
+						<div class="flex items-center justify-between">
+							<span class="font-['Bodoni_Moda'] text-white text-sm md:text-base tracking-[0.2em] font-semibold drop-shadow-lg">DESIGN 05</span>
+							<div class="w-8 h-8 rounded-full bg-white/20 backdrop-blur-sm flex items-center justify-center">
+								<i class="fas fa-heart text-white text-xs"></i>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<!-- Card 6 -->
+			<div class="coffin-card scroll-reveal group">
+				<div class="relative overflow-hidden rounded-2xl md:rounded-3xl shadow-lg hover:shadow-2xl transition-all duration-500">
+					<div class="aspect-[3/4] overflow-hidden">
+						<img src="../public/images/coffin6.jpg" alt="Coffin Design 6" class="w-full h-full object-cover transform group-hover:scale-110 group-hover:rotate-2 transition-all duration-700" />
+					</div>
+					<div class="absolute inset-0 bg-gradient-to-t from-pink-900/80 via-pink-500/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+					<div class="absolute bottom-0 left-0 right-0 p-4 transform translate-y-full group-hover:translate-y-0 transition-transform duration-500">
+						<div class="flex items-center justify-between">
+							<span class="font-['Bodoni_Moda'] text-white text-sm md:text-base tracking-[0.2em] font-semibold drop-shadow-lg">DESIGN 06</span>
+							<div class="w-8 h-8 rounded-full bg-white/20 backdrop-blur-sm flex items-center justify-center">
+								<i class="fas fa-heart text-white text-xs"></i>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<!-- Card 7 -->
+			<div class="coffin-card scroll-reveal group">
+				<div class="relative overflow-hidden rounded-2xl md:rounded-3xl shadow-lg hover:shadow-2xl transition-all duration-500">
+					<div class="aspect-[3/4] overflow-hidden">
+						<img src="../public/images/coffin7.jpg" alt="Coffin Design 7" class="w-full h-full object-cover transform group-hover:scale-110 group-hover:rotate-2 transition-all duration-700" />
+					</div>
+					<div class="absolute inset-0 bg-gradient-to-t from-pink-900/80 via-pink-500/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+					<div class="absolute bottom-0 left-0 right-0 p-4 transform translate-y-full group-hover:translate-y-0 transition-transform duration-500">
+						<div class="flex items-center justify-between">
+							<span class="font-['Bodoni_Moda'] text-white text-sm md:text-base tracking-[0.2em] font-semibold drop-shadow-lg">DESIGN 07</span>
+							<div class="w-8 h-8 rounded-full bg-white/20 backdrop-blur-sm flex items-center justify-center">
+								<i class="fas fa-heart text-white text-xs"></i>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<!-- Card 8 -->
+			<div class="coffin-card scroll-reveal group">
+				<div class="relative overflow-hidden rounded-2xl md:rounded-3xl shadow-lg hover:shadow-2xl transition-all duration-500">
+					<div class="aspect-[3/4] overflow-hidden">
+						<img src="../public/images/coffin8.jpg" alt="Coffin Design 8" class="w-full h-full object-cover transform group-hover:scale-110 group-hover:rotate-2 transition-all duration-700" />
+					</div>
+					<div class="absolute inset-0 bg-gradient-to-t from-pink-900/80 via-pink-500/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+					<div class="absolute bottom-0 left-0 right-0 p-4 transform translate-y-full group-hover:translate-y-0 transition-transform duration-500">
+						<div class="flex items-center justify-between">
+							<span class="font-['Bodoni_Moda'] text-white text-sm md:text-base tracking-[0.2em] font-semibold drop-shadow-lg">DESIGN 08</span>
+							<div class="w-8 h-8 rounded-full bg-white/20 backdrop-blur-sm flex items-center justify-center">
+								<i class="fas fa-heart text-white text-xs"></i>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
+
+<section class="bg-gradient-to-b from-pink-50/30 to-white py-16 md:py-20 flex justify-center scroll-reveal">
+	<a href="https://s.shopee.co.id/6fd78uVutN?share_channel_code=1" 
+	   class="group relative overflow-hidden button-modern w-[220px] h-[55px] md:w-[280px] md:h-[70px] rounded-full flex items-center justify-center transition-all duration-500 hover:shadow-2xl hover:scale-110">
+		<div class="absolute inset-0 bg-gradient-to-r from-[#D4A5A5] via-[#CE8A97] to-[#C99999] opacity-90 group-hover:opacity-100 transition-opacity"></div>
+		<div class="absolute inset-0 bg-white/20 backdrop-blur-sm"></div>
+		<span class="relative z-10 font-['Bodoni_Moda'] font-bold text-base md:text-xl tracking-[0.3em] md:tracking-[0.4em] text-white drop-shadow-lg group-hover:tracking-[0.35em] md:group-hover:tracking-[0.45em] transition-all duration-300">BOOK NOW</span>
+		<div class="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500">
+			<div class="absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent animate-shimmer"></div>
+		</div>
+	</a>
+</section>
+
+<!-- ================= FOOTER ================= -->
+<footer class="bg-white border-t border-gray-100 relative overflow-hidden">
+	<div class="absolute inset-0 bg-pink-50/50"></div>
+	<div class="relative z-10 max-w-[1400px] mx-auto px-4 md:px-6 py-12 md:py-16">
+		<div class="flex flex-col md:flex-row flex-wrap items-center justify-between gap-6 md:gap-8 lg:gap-12">
+			<!-- ONNAILS Logo Text -->
+			<div class="flex-shrink-0 group">
+				<div class="relative">
+					<div class="absolute -inset-2 bg-gradient-to-r from-[#CE8A97] to-[#D4A5A5] rounded-xl blur opacity-0 group-hover:opacity-20 transition-opacity duration-500"></div>
+					<img src="../public/images/onnailss.png" class="relative h-32 md:h-40 w-auto object-contain transform group-hover:scale-105 transition-transform duration-500" alt="ONNAILS">
+				</div>
+			</div>
+			
+			<!-- Menu -->
+			<div class="flex-shrink-0">
+				<h3 class="font-['Kalnia'] font-bold text-lg md:text-xl text-[#634A45] tracking-[0.2em] mb-4 flex items-center gap-2">
+					<span class="w-8 h-0.5 bg-gradient-to-r from-[#CE8A97] to-[#D4A5A5] rounded-full"></span>
+					MENU
+				</h3>
+				<ul class="space-y-2 font-['Kalnia'] font-medium text-base md:text-lg tracking-[0.1em] text-[#634A45]">
+					<li><a href="../booking.html" class="footer-link">BOOKING</a></li>
+					<li><a href="../contact.html" class="footer-link">CONTACT</a></li>
+				</ul>
+			</div>
+			
+			<!-- Social Media -->
+			<div class="flex-shrink-0">
+				<h3 class="font-['Kalnia'] font-bold text-lg md:text-xl text-[#634A45] tracking-[0.2em] mb-4 flex items-center gap-2">
+					<span class="w-8 h-0.5 bg-gradient-to-r from-[#CE8A97] to-[#D4A5A5] rounded-full"></span>
+					SOCIAL MEDIA
+				</h3>
+				<ul class="space-y-2 font-['Kalnia'] font-medium text-base md:text-lg tracking-[0.1em] text-[#634A45]">
+					<li><a href="https://www.instagram.com/onnailssss" target="_blank" class="footer-link flex items-center gap-3"><i class="fa-brands fa-instagram text-lg"></i> Instagram</a></li>
+					<li><a href="https://www.tiktok.com/@onnailsss_" target="_blank" class="footer-link flex items-center gap-3"><i class="fa-brands fa-tiktok text-lg"></i> TikTok</a></li>
+				</ul>
+			</div>
+			
+			<!-- Logo Image -->
+			<div class="flex items-center flex-shrink-0">
+				<div class="relative group">
+					<div class="absolute -inset-1 bg-gradient-to-r from-[#CE8A97] to-[#D4A5A5] rounded-full blur opacity-30 group-hover:opacity-60 transition-opacity duration-500"></div>
+					<div class="relative w-28 h-28 md:w-32 md:h-32 rounded-full overflow-hidden shadow-xl bg-white p-3 transform group-hover:scale-110 group-hover:rotate-6 transition-all duration-500">
+						<img src="../public/images/logoonnails.png" class="w-full h-full object-contain" alt="ONNAILS Logo">
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="mt-12 pt-8 border-t border-gray-200 text-center">
+			<p class="font-['Montserrat'] text-sm text-gray-500">Â© 2026 ONNAILS. All rights reserved.</p>
+		</div>
+	</div>
 </footer>
+
+<!-- ================= MODAL DETAIL FOTO ================= -->
+<div id="detailModal" class="hidden fixed inset-0 z-[9999] bg-black/80 backdrop-blur-sm items-center justify-center p-4 animate-fadeIn">
+	<div class="bg-white rounded-3xl max-w-4xl w-full max-h-[90vh] overflow-y-auto relative animate-scaleIn shadow-2xl">
+		<!-- Close Button -->
+		<button id="closeModal" class="absolute top-4 right-4 z-10 w-10 h-10 rounded-full bg-white/90 backdrop-blur-sm flex items-center justify-center text-gray-600 hover:bg-pink-100 hover:text-pink-600 transition-all duration-300 shadow-lg hover:scale-110">
+			<i class="fas fa-times text-lg"></i>
+		</button>
+
+		<!-- Modal Content -->
+		<div class="p-6 md:p-8">
+			<!-- Image Preview -->
+			<div class="relative rounded-2xl overflow-hidden shadow-xl mb-6">
+				<img id="modalImage" src="" alt="Design Detail" class="w-full h-auto object-cover">
+				<div class="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent"></div>
+			</div>
+
+			<!-- Design Info -->
+			<div class="text-center mb-6">
+				<h2 id="modalTitle" class="font-['Bodoni_Moda'] text-3xl md:text-4xl font-bold text-[#634A45] tracking-[0.2em] mb-3">DESIGN 01</h2>
+				<p class="font-['Montserrat'] text-gray-600 text-sm md:text-base leading-relaxed max-w-2xl mx-auto">
+					Premium press-on nails dengan desain elegan. Mudah dipasang, tahan lama, dan dapat digunakan berulang kali.
+				</p>
+			</div>
+
+			<!-- Features -->
+			<div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
+				<div class="text-center p-4 bg-pink-50 rounded-xl">
+					<i class="fas fa-check-circle text-2xl text-pink-500 mb-2"></i>
+					<p class="font-['Montserrat'] text-xs font-semibold text-gray-700">Tahan Lama</p>
+				</div>
+				<div class="text-center p-4 bg-pink-50 rounded-xl">
+					<i class="fas fa-sync-alt text-2xl text-pink-500 mb-2"></i>
+					<p class="font-['Montserrat'] text-xs font-semibold text-gray-700">Reusable</p>
+				</div>
+				<div class="text-center p-4 bg-pink-50 rounded-xl">
+					<i class="fas fa-star text-2xl text-pink-500 mb-2"></i>
+					<p class="font-['Montserrat'] text-xs font-semibold text-gray-700">Premium</p>
+				</div>
+				<div class="text-center p-4 bg-pink-50 rounded-xl">
+					<i class="fas fa-bolt text-2xl text-pink-500 mb-2"></i>
+					<p class="font-['Montserrat'] text-xs font-semibold text-gray-700">Mudah Pasang</p>
+				</div>
+			</div>
+
+			<!-- Order Buttons -->
+			<div class="flex flex-col sm:flex-row gap-4">
+				<!-- Shopee Button -->
+				<button id="shopeeOrder" class="group relative overflow-hidden flex-1 px-8 py-4 rounded-full transition-all duration-500 hover:shadow-xl hover:scale-105">
+					<div class="absolute inset-0 bg-gradient-to-r from-orange-500 to-orange-600 opacity-90 group-hover:opacity-100 transition-opacity"></div>
+					<div class="absolute inset-0 bg-white/10 backdrop-blur-sm"></div>
+					<div class="relative z-10 flex items-center justify-center gap-3">
+						<i class="fas fa-shopping-bag text-white text-lg"></i>
+						<span class="font-['Bodoni_Moda'] font-bold text-base tracking-[0.15em] text-white">ORDER VIA SHOPEE</span>
+					</div>
+					<div class="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500">
+						<div class="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent animate-shimmer"></div>
+					</div>
+				</button>
+
+				<!-- WhatsApp Button -->
+				<button id="whatsappOrder" class="group relative overflow-hidden flex-1 px-8 py-4 rounded-full transition-all duration-500 hover:shadow-xl hover:scale-105">
+					<div class="absolute inset-0 bg-gradient-to-r from-green-500 to-green-600 opacity-90 group-hover:opacity-100 transition-opacity"></div>
+					<div class="absolute inset-0 bg-white/10 backdrop-blur-sm"></div>
+					<div class="relative z-10 flex items-center justify-center gap-3">
+						<i class="fab fa-whatsapp text-white text-lg"></i>
+						<span class="font-['Bodoni_Moda'] font-bold text-base tracking-[0.15em] text-white">ORDER VIA WHATSAPP</span>
+					</div>
+					<div class="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500">
+						<div class="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent animate-shimmer"></div>
+					</div>
+				</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+<script>
+	// Navbar scroll effect
+	const navEl = document.querySelector('.onnails-navbar');
+	if (navEl) {
+		window.addEventListener('scroll', () => {
+			navEl.classList.toggle('scrolled', window.scrollY > 10);
+		});
+	}
+
+	console.log('ðŸŽ¨ ONNAILS Coffin Page Loaded!');
+
+	// ===== ANIMATE BLUR CIRCLES SAAT SCROLL KE VIEW ===== //
+	const animatedElements = document.querySelectorAll('.animate-fadeInUp');
+	
+	animatedElements.forEach(el => {
+		el.style.animationPlayState = 'paused';
+		el.style.opacity = '0';
+	});
+	
+	const animationObserver = new IntersectionObserver((entries) => {
+		entries.forEach(entry => {
+			if (entry.isIntersecting) {
+				entry.target.style.animationPlayState = 'running';
+				entry.target.style.opacity = '1';
+				console.log('âœ¨ Animating:', entry.target.className);
+			} else {
+				entry.target.style.animationPlayState = 'paused';
+				entry.target.style.opacity = '0';
+				entry.target.style.animation = 'none';
+				setTimeout(() => {
+					entry.target.style.animation = '';
+				}, 10);
+			}
+		});
+	}, {
+		root: null,
+		rootMargin: '-50px',
+		threshold: 0.1
+	});
+
+	animatedElements.forEach(el => {
+		animationObserver.observe(el);
+	});
+
+	// ================= SCROLL REVEAL SYSTEM ================= //
+	const revealElements = document.querySelectorAll('.scroll-reveal');
+	
+	const revealObserver = new IntersectionObserver((entries) => {
+		entries.forEach(entry => {
+			if (entry.isIntersecting) {
+				entry.target.classList.add('active');
+				console.log('ðŸŽ¯ Revealed:', entry.target.tagName);
+			} else {
+				entry.target.classList.remove('active');
+			}
+		});
+	}, {
+		root: null,
+		rootMargin: '-80px',
+		threshold: 0.1
+	});
+
+	revealElements.forEach(el => {
+		revealObserver.observe(el);
+	});
+
+	// ================= MODAL DETAIL FOTO ================= //
+	const modal = document.getElementById('detailModal');
+	const modalImg = document.getElementById('modalImage');
+	const modalTitle = document.getElementById('modalTitle');
+	const closeModal = document.getElementById('closeModal');
+	const shopeeBtn = document.getElementById('shopeeOrder');
+	const whatsappBtn = document.getElementById('whatsappOrder');
+	let selectedDesign = '';
+
+	// Add click event to all cards
+	const allCards = document.querySelectorAll('.coffin-card');
+	console.log('ðŸŽ´ Found cards:', allCards.length);
+	
+	allCards.forEach((card, index) => {
+		card.style.cursor = 'pointer';
+		
+		card.addEventListener('click', function(e) {
+			// Don't trigger if clicking heart icon
+			if (e.target.closest('.fa-heart')) return;
+			
+			const img = card.querySelector('img');
+			const designSpan = card.querySelector('span');
+			const designName = designSpan ? designSpan.textContent.trim() : `DESIGN ${String(index + 1).padStart(2, '0')}`;
+			
+			if (img) {
+				modalImg.src = img.src;
+				modalTitle.textContent = designName;
+				selectedDesign = designName;
+				modal.classList.remove('hidden');
+				modal.classList.add('flex');
+				document.body.style.overflow = 'hidden';
+				
+				console.log('ðŸ–¼ï¸ Opened modal for:', designName);
+			}
+		});
+	});
+
+	// Close modal
+	closeModal.addEventListener('click', function() {
+		modal.classList.add('hidden');
+		modal.classList.remove('flex');
+		document.body.style.overflow = 'auto';
+	});
+
+	// Close on background click
+	modal.addEventListener('click', function(e) {
+		if (e.target === modal) {
+			modal.classList.add('hidden');
+			modal.classList.remove('flex');
+			document.body.style.overflow = 'auto';
+		}
+	});
+
+	// Close on ESC key
+	document.addEventListener('keydown', function(e) {
+		if (e.key === 'Escape' && !modal.classList.contains('hidden')) {
+			modal.classList.add('hidden');
+			modal.classList.remove('flex');
+			document.body.style.overflow = 'auto';
+		}
+	});
+
+	// Order buttons
+	shopeeBtn.addEventListener('click', function() {
+		const shopeeUrl = 'https://s.shopee.co.id/6fd78uVutN?share_channel_code=1';
+		window.open(shopeeUrl, '_blank');
+		console.log('ðŸ›’ Redirecting to Shopee for:', selectedDesign);
+	});
+
+	whatsappBtn.addEventListener('click', function() {
+		const phoneNumber = '6281234567890'; // Replace with actual number
+		const message = `Hi, saya tertarik dengan ${selectedDesign} dari ONNAILS Coffin Collection.`;
+		const whatsappUrl = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;
+		window.open(whatsappUrl, '_blank');
+		console.log('ðŸ’¬ Opening WhatsApp for:', selectedDesign);
+	});
+
+	console.log('âœ… All scripts loaded successfully!');
+</script>
 
 </body>
 </html>

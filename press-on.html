@@ -1,1 +1,991 @@
-<!-- Press-On Page -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<title>All Press-On Nails - ONNAILS</title>
+	<script src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
+	<link rel="stylesheet" href="public/css/style.css">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+	<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Montserrat:wght@300;400;500;600&family=Bodoni+Moda:wght@400;600;700;800&family=Kalnia:wght@500&display=swap" rel="stylesheet">
+	<script src="https://cdn.tailwindcss.com"></script>
+	<style>
+		/* Dropdown Menu Styling */
+		.dropdown-menu {
+			min-width: 200px;
+			box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+		}
+
+		.dropdown-menu a {
+			display: block;
+			padding: 12px 20px;
+			transition: all 0.3s ease;
+			border-left: 3px solid transparent;
+		}
+
+		.dropdown-menu a:hover {
+			background: linear-gradient(to right, #FFF5F7, #FFF);
+			border-left-color: #CE8A97;
+			padding-left: 24px;
+			color: #CE8A97;
+		}
+
+		.dropdown-menu a.active {
+			background: linear-gradient(to right, #FFF5F7, #FFF);
+			border-left-color: #CE8A97;
+			color: #CE8A97;
+			font-weight: 600;
+		}
+
+		@keyframes dropdownSlide {
+			from {
+				opacity: 0;
+				transform: translateY(-10px);
+			}
+			to {
+				opacity: 1;
+				transform: translateY(0);
+			}
+		}
+
+		.dropdown-animate {
+			animation: dropdownSlide 0.3s ease-out;
+		}
+
+		/* Horizontal Scroll Container - Only for Gallery */
+		.scroll-container {
+			display: flex;
+			overflow-x: auto;
+			overflow-y: hidden;
+			scroll-behavior: smooth;
+			-webkit-overflow-scrolling: touch;
+			scrollbar-width: thin;
+			scrollbar-color: #CE8A97 #f0f0f0;
+			gap: 1rem;
+			padding-bottom: 1rem;
+		}
+
+		.scroll-container::-webkit-scrollbar {
+			height: 8px;
+		}
+
+		.scroll-container::-webkit-scrollbar-track {
+			background: #f0f0f0;
+			border-radius: 10px;
+		}
+
+		.scroll-container::-webkit-scrollbar-thumb {
+			background: linear-gradient(to right, #CE8A97, #D4A5A5);
+			border-radius: 10px;
+		}
+
+		.scroll-container::-webkit-scrollbar-thumb:hover {
+			background: linear-gradient(to right, #B67882, #CE8A97);
+		}
+
+		/* Product Grid - 2 rows with horizontal scroll */
+		.product-grid {
+			display: grid;
+			grid-template-rows: repeat(2, 1fr);
+			grid-auto-flow: column;
+			grid-auto-columns: 280px;
+			gap: 1rem;
+			overflow-x: auto;
+			overflow-y: hidden;
+			scroll-behavior: smooth;
+			padding-bottom: 1rem;
+			max-height: 800px;
+		}
+
+		.product-grid > * {
+			height: 100%;
+		}
+
+		.product-grid::-webkit-scrollbar {
+			height: 8px;
+		}
+
+		.product-grid::-webkit-scrollbar-track {
+			background: #f1f1f1;
+			border-radius: 10px;
+		}
+
+		.product-grid::-webkit-scrollbar-thumb {
+			background: linear-gradient(to right, #CE8A97, #D4A5A5);
+			border-radius: 10px;
+		}
+
+		.product-grid::-webkit-scrollbar-thumb:hover {
+			background: linear-gradient(to right, #B67882, #CE8A97);
+		}
+
+		@media (max-width: 768px) {
+			.product-grid {
+				grid-auto-columns: 200px;
+				max-height: 600px;
+			}
+		}
+
+		/* Hero Image for each product */
+		.hero-nail-image {
+			width: 100%;
+			height: 350px;
+			object-fit: cover;
+		}
+
+		@media (max-width: 768px) {
+			.hero-nail-image {
+				height: 200px;
+			}
+		}
+
+		/* Gallery Card */
+		.gallery-card {
+			flex: 0 0 auto;
+			width: 280px;
+			height: 280px;
+		}
+
+		@media (max-width: 768px) {
+			.gallery-card {
+				width: 200px;
+				height: 200px;
+			}
+		}
+	</style>
+</head>
+<body class="bg-white">
+
+<!-- ================= NAVBAR (WHITE) ================= -->
+<header class="onnails-navbar">
+	<div class="max-w-[1440px] mx-auto h-[70px] flex items-center px-3 md:px-6 relative">
+		<!-- Left Menu - Hidden on mobile -->
+		<nav class="hidden lg:flex gap-6 font-['Bodoni_Moda'] text-[13px] tracking-[0.15em] text-gray-800">
+			<a href="/" class="hover:text-[#CE8A97]">HOME</a>
+			<a href="/our-service.html" class="hover:text-[#CE8A97]">OUR SERVICE</a>
+			<a href="/press-on.html" class="text-[#CE8A97]">PRESS-ON</a>
+			
+			<!-- Product Dropdown -->
+			<div class="relative" x-data="{ open: false }" @mouseenter="open = true" @mouseleave="open = false">
+				<button class="hover:text-[#CE8A97] flex items-center gap-1 transition-colors">
+					PRODUCT
+					<i class="fas fa-chevron-down text-[10px] transition-transform duration-300" :class="{ 'rotate-180': open }"></i>
+				</button>
+				<div x-show="open" 
+				     x-transition:enter="transition ease-out duration-200"
+				     x-transition:enter-start="opacity-0 transform scale-95"
+				     x-transition:enter-end="opacity-100 transform scale-100"
+				     x-transition:leave="transition ease-in duration-150"
+				     x-transition:leave-start="opacity-100 transform scale-100"
+				     x-transition:leave-end="opacity-0 transform scale-95"
+				     class="absolute top-full left-0 mt-2 bg-white rounded-xl shadow-2xl overflow-hidden dropdown-menu dropdown-animate z-50"
+				     style="display: none;">
+					<a href="/product/almond.html" class="font-['Bodoni_Moda'] text-[13px] tracking-[0.15em] text-gray-800">
+						<i class="fas fa-gem text-pink-400 mr-2"></i> ALMOND
+					</a>
+					<a href="/product/coffin.html" class="font-['Bodoni_Moda'] text-[13px] tracking-[0.15em] text-gray-800">
+						<i class="fas fa-chess-queen text-pink-400 mr-2"></i> COFFIN
+					</a>
+					<a href="/product/square.html" class="font-['Bodoni_Moda'] text-[13px] tracking-[0.15em] text-gray-800">
+						<i class="fas fa-square text-pink-400 mr-2"></i> SQUARE
+					</a>
+					<a href="/product/stilettos.html" class="font-['Bodoni_Moda'] text-[13px] tracking-[0.15em] text-gray-800">
+						<i class="fas fa-crown text-pink-400 mr-2"></i> STILETTOS
+					</a>
+				</div>
+			</div>
+			
+			<a href="/tutorial.html" class="hover:text-[#CE8A97]">TUTORIALS</a>
+		</nav>
+		<!-- Center Logo -->
+		<div class="absolute left-1/2 -translate-x-1/2">
+			<img src="public/images/onnailss.png" alt="ONNAILS" class="h-16 md:h-20 lg:h-24" />
+		</div>
+		<!-- Right Menu -->
+		<div class="ml-auto flex items-center gap-3 md:gap-6 font-['Bodoni_Moda'] text-[13px] tracking-[0.15em] text-gray-800">
+			<a href="/collaboration.html" class="hidden lg:inline hover:text-[#CE8A97]">COLLABORATIONS</a>
+			<button class="hover:text-[#CE8A97]"><i class="fa-regular fa-user text-base md:text-lg"></i></button>
+			<button class="hover:text-[#CE8A97]"><i class="fa-solid fa-magnifying-glass text-base md:text-lg"></i></button>
+			<a href="/wishlist.html" class="hover:text-[#CE8A97]"><i class="fa-regular fa-bookmark text-base md:text-lg"></i></a>
+		</div>
+	</div>
+</header>
+
+<!-- ================= MARQUEE BAR ================= -->
+<div class="marquee-bar">
+	<div class="marquee-track">
+		<span>SCHEDULE YOUR CUSTOM NAIL DESIGN SESSION NOW</span>
+		<span>SCHEDULE YOUR CUSTOM NAIL DESIGN SESSION NOW</span>
+		<span>SCHEDULE YOUR CUSTOM NAIL DESIGN SESSION NOW</span>
+	</div>
+</div>
+
+<!-- ================= HERO SECTION ================= -->
+<section class="bg-gradient-to-b from-pink-100 to-white py-12 md:py-16">
+	<div class="max-w-[1200px] mx-auto px-4 md:px-6 text-center">
+		<h1 class="font-['Bodoni_Moda'] font-bold text-4xl md:text-5xl lg:text-6xl text-[#7A2E2E] tracking-[0.2em] md:tracking-[0.3em] mb-4">
+			ALL PRESS-ON NAILS
+		</h1>
+		<p class="font-['Montserrat'] text-xs md:text-sm text-gray-600 tracking-[0.1em]">
+			EXPLORE OUR COMPLETE COLLECTION OF PREMIUM PRESS-ON NAILS
+		</p>
+	</div>
+</section>
+
+<!-- ================= ALMOND SECTION ================= -->
+<section class="bg-white">
+	<!-- Hero Image -->
+	<div class="w-full">
+		<img src="public/images/almond1.jpg" alt="Almond Collection" class="hero-nail-image" />
+	</div>
+	
+	<div class="max-w-[1400px] mx-auto px-4 md:px-6 py-8 md:py-12">
+		<div class="flex items-center justify-between mb-6">
+			<div>
+				<h2 class="font-['Bodoni_Moda'] font-bold text-xl md:text-2xl text-[#7A2E2E] tracking-[0.15em] mb-1">ALMOND</h2>
+				<p class="font-['Montserrat'] text-xs text-gray-500">Elegant and timeless shape</p>
+			</div>
+		</div>
+		
+		<div class="product-grid">
+			<div class="relative overflow-hidden rounded-lg shadow-md hover:shadow-2xl transition-all duration-500 group cursor-pointer">
+				<div class="aspect-[3/4] overflow-hidden bg-gray-50">
+					<img src="public/images/almond1.jpg" alt="Almond 1" class="w-full h-full object-cover transform group-hover:scale-110 transition-all duration-700" />
+				</div>
+				<div class="absolute inset-0 bg-gradient-to-t from-pink-900/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+				<div class="absolute bottom-4 left-4 right-4 transform translate-y-full group-hover:translate-y-0 transition-transform duration-500">
+					<p class="font-['Bodoni_Moda'] text-white text-sm tracking-[0.15em] drop-shadow-lg">ALMOND 01</p>
+				</div>
+			</div>
+			<div class="relative overflow-hidden rounded-lg shadow-md hover:shadow-2xl transition-all duration-500 group cursor-pointer">
+				<div class="aspect-[3/4] overflow-hidden bg-gray-50">
+					<img src="public/images/almond2.jpg" alt="Almond 2" class="w-full h-full object-cover transform group-hover:scale-110 transition-all duration-700" />
+				</div>
+				<div class="absolute inset-0 bg-gradient-to-t from-pink-900/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+				<div class="absolute bottom-4 left-4 right-4 transform translate-y-full group-hover:translate-y-0 transition-transform duration-500">
+					<p class="font-['Bodoni_Moda'] text-white text-sm tracking-[0.15em] drop-shadow-lg">ALMOND 02</p>
+				</div>
+			</div>
+			<div class="relative overflow-hidden rounded-lg shadow-md hover:shadow-2xl transition-all duration-500 group cursor-pointer">
+				<div class="aspect-[3/4] overflow-hidden bg-gray-50">
+					<img src="public/images/almond3.jpg" alt="Almond 3" class="w-full h-full object-cover transform group-hover:scale-110 transition-all duration-700" />
+				</div>
+				<div class="absolute inset-0 bg-gradient-to-t from-pink-900/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+				<div class="absolute bottom-4 left-4 right-4 transform translate-y-full group-hover:translate-y-0 transition-transform duration-500">
+					<p class="font-['Bodoni_Moda'] text-white text-sm tracking-[0.15em] drop-shadow-lg">ALMOND 03</p>
+				</div>
+			</div>
+			<div class="relative overflow-hidden rounded-lg shadow-md hover:shadow-2xl transition-all duration-500 group cursor-pointer">
+				<div class="aspect-[3/4] overflow-hidden bg-gray-50">
+					<img src="public/images/almond4.jpg" alt="Almond 4" class="w-full h-full object-cover transform group-hover:scale-110 transition-all duration-700" />
+				</div>
+				<div class="absolute inset-0 bg-gradient-to-t from-pink-900/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+				<div class="absolute bottom-4 left-4 right-4 transform translate-y-full group-hover:translate-y-0 transition-transform duration-500">
+					<p class="font-['Bodoni_Moda'] text-white text-sm tracking-[0.15em] drop-shadow-lg">ALMOND 04</p>
+				</div>
+			</div>
+			<div class="relative overflow-hidden rounded-lg shadow-md hover:shadow-2xl transition-all duration-500 group cursor-pointer">
+				<div class="aspect-[3/4] overflow-hidden bg-gray-50">
+					<img src="public/images/almond5.jpg" alt="Almond 5" class="w-full h-full object-cover transform group-hover:scale-110 transition-all duration-700" />
+				</div>
+				<div class="absolute inset-0 bg-gradient-to-t from-pink-900/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+				<div class="absolute bottom-4 left-4 right-4 transform translate-y-full group-hover:translate-y-0 transition-transform duration-500">
+					<p class="font-['Bodoni_Moda'] text-white text-sm tracking-[0.15em] drop-shadow-lg">ALMOND 05</p>
+				</div>
+			</div>
+			<div class="relative overflow-hidden rounded-lg shadow-md hover:shadow-2xl transition-all duration-500 group cursor-pointer">
+				<div class="aspect-[3/4] overflow-hidden bg-gray-50">
+					<img src="public/images/almond6.jpg" alt="Almond 6" class="w-full h-full object-cover transform group-hover:scale-110 transition-all duration-700" />
+				</div>
+				<div class="absolute inset-0 bg-gradient-to-t from-pink-900/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+				<div class="absolute bottom-4 left-4 right-4 transform translate-y-full group-hover:translate-y-0 transition-transform duration-500">
+					<p class="font-['Bodoni_Moda'] text-white text-sm tracking-[0.15em] drop-shadow-lg">ALMOND 06</p>
+				</div>
+			</div>
+			<div class="relative overflow-hidden rounded-lg shadow-md hover:shadow-2xl transition-all duration-500 group cursor-pointer">
+				<div class="aspect-[3/4] overflow-hidden bg-gray-50">
+					<img src="public/images/almond7.jpg" alt="Almond 7" class="w-full h-full object-cover transform group-hover:scale-110 transition-all duration-700" />
+				</div>
+				<div class="absolute inset-0 bg-gradient-to-t from-pink-900/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+				<div class="absolute bottom-4 left-4 right-4 transform translate-y-full group-hover:translate-y-0 transition-transform duration-500">
+					<p class="font-['Bodoni_Moda'] text-white text-sm tracking-[0.15em] drop-shadow-lg">ALMOND 07</p>
+				</div>
+			</div>
+			<div class="relative overflow-hidden rounded-lg shadow-md hover:shadow-2xl transition-all duration-500 group cursor-pointer">
+				<div class="aspect-[3/4] overflow-hidden bg-gray-50">
+					<img src="public/images/almond8.jpg" alt="Almond 8" class="w-full h-full object-cover transform group-hover:scale-110 transition-all duration-700" />
+				</div>
+				<div class="absolute inset-0 bg-gradient-to-t from-pink-900/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+				<div class="absolute bottom-4 left-4 right-4 transform translate-y-full group-hover:translate-y-0 transition-transform duration-500">
+					<p class="font-['Bodoni_Moda'] text-white text-sm tracking-[0.15em] drop-shadow-lg">ALMOND 08</p>
+				</div>
+			</div>
+			<div class="relative overflow-hidden rounded-lg shadow-md hover:shadow-2xl transition-all duration-500 group cursor-pointer">
+				<div class="aspect-[3/4] overflow-hidden bg-gray-50">
+					<img src="public/images/almond9.jpg" alt="Almond 9" class="w-full h-full object-cover transform group-hover:scale-110 transition-all duration-700" />
+				</div>
+				<div class="absolute inset-0 bg-gradient-to-t from-pink-900/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+				<div class="absolute bottom-4 left-4 right-4 transform translate-y-full group-hover:translate-y-0 transition-transform duration-500">
+					<p class="font-['Bodoni_Moda'] text-white text-sm tracking-[0.15em] drop-shadow-lg">ALMOND 09</p>
+				</div>
+			</div>
+			<div class="relative overflow-hidden rounded-lg shadow-md hover:shadow-2xl transition-all duration-500 group cursor-pointer">
+				<div class="aspect-[3/4] overflow-hidden bg-gray-50">
+					<img src="public/images/almond10.jpg" alt="Almond 10" class="w-full h-full object-cover transform group-hover:scale-110 transition-all duration-700" />
+				</div>
+				<div class="absolute inset-0 bg-gradient-to-t from-pink-900/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+				<div class="absolute bottom-4 left-4 right-4 transform translate-y-full group-hover:translate-y-0 transition-transform duration-500">
+					<p class="font-['Bodoni_Moda'] text-white text-sm tracking-[0.15em] drop-shadow-lg">ALMOND 10</p>
+				</div>
+			</div>
+			<div class="relative overflow-hidden rounded-lg shadow-md hover:shadow-2xl transition-all duration-500 group cursor-pointer">
+				<div class="aspect-[3/4] overflow-hidden bg-gray-50">
+					<img src="public/images/almond11.jpg" alt="Almond 11" class="w-full h-full object-cover transform group-hover:scale-110 transition-all duration-700" />
+				</div>
+				<div class="absolute inset-0 bg-gradient-to-t from-pink-900/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+				<div class="absolute bottom-4 left-4 right-4 transform translate-y-full group-hover:translate-y-0 transition-transform duration-500">
+					<p class="font-['Bodoni_Moda'] text-white text-sm tracking-[0.15em] drop-shadow-lg">ALMOND 11</p>
+				</div>
+			</div>
+			<div class="relative overflow-hidden rounded-lg shadow-md hover:shadow-2xl transition-all duration-500 group cursor-pointer">
+				<div class="aspect-[3/4] overflow-hidden bg-gray-50">
+					<img src="public/images/almond12.jpg" alt="Almond 12" class="w-full h-full object-cover transform group-hover:scale-110 transition-all duration-700" />
+				</div>
+				<div class="absolute inset-0 bg-gradient-to-t from-pink-900/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+				<div class="absolute bottom-4 left-4 right-4 transform translate-y-full group-hover:translate-y-0 transition-transform duration-500">
+					<p class="font-['Bodoni_Moda'] text-white text-sm tracking-[0.15em] drop-shadow-lg">ALMOND 12</p>
+				</div>
+			</div>
+			<div class="relative overflow-hidden rounded-lg shadow-md hover:shadow-2xl transition-all duration-500 group cursor-pointer">
+				<div class="aspect-[3/4] overflow-hidden bg-gray-50">
+					<img src="public/images/almond13.jpg" alt="Almond 13" class="w-full h-full object-cover transform group-hover:scale-110 transition-all duration-700" />
+				</div>
+				<div class="absolute inset-0 bg-gradient-to-t from-pink-900/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+				<div class="absolute bottom-4 left-4 right-4 transform translate-y-full group-hover:translate-y-0 transition-transform duration-500">
+					<p class="font-['Bodoni_Moda'] text-white text-sm tracking-[0.15em] drop-shadow-lg">ALMOND 13</p>
+				</div>
+			</div>
+			<div class="relative overflow-hidden rounded-lg shadow-md hover:shadow-2xl transition-all duration-500 group cursor-pointer">
+				<div class="aspect-[3/4] overflow-hidden bg-gray-50">
+					<img src="public/images/almond14.jpg" alt="Almond 14" class="w-full h-full object-cover transform group-hover:scale-110 transition-all duration-700" />
+				</div>
+				<div class="absolute inset-0 bg-gradient-to-t from-pink-900/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+				<div class="absolute bottom-4 left-4 right-4 transform translate-y-full group-hover:translate-y-0 transition-transform duration-500">
+					<p class="font-['Bodoni_Moda'] text-white text-sm tracking-[0.15em] drop-shadow-lg">ALMOND 14</p>
+				</div>
+			</div>
+			<div class="relative overflow-hidden rounded-lg shadow-md hover:shadow-2xl transition-all duration-500 group cursor-pointer">
+				<div class="aspect-[3/4] overflow-hidden bg-gray-50">
+					<img src="public/images/almond15.jpg" alt="Almond 15" class="w-full h-full object-cover transform group-hover:scale-110 transition-all duration-700" />
+				</div>
+				<div class="absolute inset-0 bg-gradient-to-t from-pink-900/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+				<div class="absolute bottom-4 left-4 right-4 transform translate-y-full group-hover:translate-y-0 transition-transform duration-500">
+					<p class="font-['Bodoni_Moda'] text-white text-sm tracking-[0.15em] drop-shadow-lg">ALMOND 15</p>
+				</div>
+			</div>
+			<div class="relative overflow-hidden rounded-lg shadow-md hover:shadow-2xl transition-all duration-500 group cursor-pointer">
+				<div class="aspect-[3/4] overflow-hidden bg-gray-50">
+					<img src="public/images/almond16.jpg" alt="Almond 16" class="w-full h-full object-cover transform group-hover:scale-110 transition-all duration-700" />
+				</div>
+				<div class="absolute inset-0 bg-gradient-to-t from-pink-900/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+				<div class="absolute bottom-4 left-4 right-4 transform translate-y-full group-hover:translate-y-0 transition-transform duration-500">
+					<p class="font-['Bodoni_Moda'] text-white text-sm tracking-[0.15em] drop-shadow-lg">ALMOND 16</p>
+				</div>
+			</div>
+			<div class="relative overflow-hidden rounded-lg shadow-md hover:shadow-2xl transition-all duration-500 group cursor-pointer">
+				<div class="aspect-[3/4] overflow-hidden bg-gray-50">
+					<img src="public/images/almond17.jpg" alt="Almond 17" class="w-full h-full object-cover transform group-hover:scale-110 transition-all duration-700" />
+				</div>
+				<div class="absolute inset-0 bg-gradient-to-t from-pink-900/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+				<div class="absolute bottom-4 left-4 right-4 transform translate-y-full group-hover:translate-y-0 transition-transform duration-500">
+					<p class="font-['Bodoni_Moda'] text-white text-sm tracking-[0.15em] drop-shadow-lg">ALMOND 17</p>
+				</div>
+			</div>
+			<div class="relative overflow-hidden rounded-lg shadow-md hover:shadow-2xl transition-all duration-500 group cursor-pointer">
+				<div class="aspect-[3/4] overflow-hidden bg-gray-50">
+					<img src="public/images/almond18.jpg" alt="Almond 18" class="w-full h-full object-cover transform group-hover:scale-110 transition-all duration-700" />
+				</div>
+				<div class="absolute inset-0 bg-gradient-to-t from-pink-900/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+				<div class="absolute bottom-4 left-4 right-4 transform translate-y-full group-hover:translate-y-0 transition-transform duration-500">
+					<p class="font-['Bodoni_Moda'] text-white text-sm tracking-[0.15em] drop-shadow-lg">ALMOND 18</p>
+				</div>
+			</div>
+			<div class="relative overflow-hidden rounded-lg shadow-md hover:shadow-2xl transition-all duration-500 group cursor-pointer">
+				<div class="aspect-[3/4] overflow-hidden bg-gray-50">
+					<img src="public/images/almond19.jpg" alt="Almond 19" class="w-full h-full object-cover transform group-hover:scale-110 transition-all duration-700" />
+				</div>
+				<div class="absolute inset-0 bg-gradient-to-t from-pink-900/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+				<div class="absolute bottom-4 left-4 right-4 transform translate-y-full group-hover:translate-y-0 transition-transform duration-500">
+					<p class="font-['Bodoni_Moda'] text-white text-sm tracking-[0.15em] drop-shadow-lg">ALMOND 19</p>
+				</div>
+			</div>
+			<div class="relative overflow-hidden rounded-lg shadow-md hover:shadow-2xl transition-all duration-500 group cursor-pointer">
+				<div class="aspect-[3/4] overflow-hidden bg-gray-50">
+					<img src="public/images/almond20.jpg" alt="Almond 20" class="w-full h-full object-cover transform group-hover:scale-110 transition-all duration-700" />
+				</div>
+				<div class="absolute inset-0 bg-gradient-to-t from-pink-900/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+				<div class="absolute bottom-4 left-4 right-4 transform translate-y-full group-hover:translate-y-0 transition-transform duration-500">
+					<p class="font-['Bodoni_Moda'] text-white text-sm tracking-[0.15em] drop-shadow-lg">ALMOND 20</p>
+				</div>
+			</div>
+			<div class="relative overflow-hidden rounded-lg shadow-md hover:shadow-2xl transition-all duration-500 group cursor-pointer">
+				<div class="aspect-[3/4] overflow-hidden bg-gray-50">
+					<img src="public/images/almond21.jpg" alt="Almond 21" class="w-full h-full object-cover transform group-hover:scale-110 transition-all duration-700" />
+				</div>
+				<div class="absolute inset-0 bg-gradient-to-t from-pink-900/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+				<div class="absolute bottom-4 left-4 right-4 transform translate-y-full group-hover:translate-y-0 transition-transform duration-500">
+					<p class="font-['Bodoni_Moda'] text-white text-sm tracking-[0.15em] drop-shadow-lg">ALMOND 21</p>
+				</div>
+			</div>
+			<div class="relative overflow-hidden rounded-lg shadow-md hover:shadow-2xl transition-all duration-500 group cursor-pointer">
+				<div class="aspect-[3/4] overflow-hidden bg-gray-50">
+					<img src="public/images/almond22.jpg" alt="Almond 22" class="w-full h-full object-cover transform group-hover:scale-110 transition-all duration-700" />
+				</div>
+				<div class="absolute inset-0 bg-gradient-to-t from-pink-900/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+				<div class="absolute bottom-4 left-4 right-4 transform translate-y-full group-hover:translate-y-0 transition-transform duration-500">
+					<p class="font-['Bodoni_Moda'] text-white text-sm tracking-[0.15em] drop-shadow-lg">ALMOND 22</p>
+				</div>
+			</div>
+			<div class="relative overflow-hidden rounded-lg shadow-md hover:shadow-2xl transition-all duration-500 group cursor-pointer">
+				<div class="aspect-[3/4] overflow-hidden bg-gray-50">
+					<img src="public/images/almond23.jpg" alt="Almond 23" class="w-full h-full object-cover transform group-hover:scale-110 transition-all duration-700" />
+				</div>
+				<div class="absolute inset-0 bg-gradient-to-t from-pink-900/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+				<div class="absolute bottom-4 left-4 right-4 transform translate-y-full group-hover:translate-y-0 transition-transform duration-500">
+					<p class="font-['Bodoni_Moda'] text-white text-sm tracking-[0.15em] drop-shadow-lg">ALMOND 23</p>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
+
+<!-- ================= COFFIN SECTION ================= -->
+<section class="bg-gray-50">
+	<!-- Hero Image -->
+	<div class="w-full">
+		<img src="public/images/coffin1.jpg" alt="Coffin Collection" class="hero-nail-image" />
+	</div>
+	
+	<div class="max-w-[1400px] mx-auto px-4 md:px-6 py-8 md:py-12">
+		<div class="flex items-center justify-between mb-6">
+			<div>
+				<h2 class="font-['Bodoni_Moda'] font-bold text-xl md:text-2xl text-[#7A2E2E] tracking-[0.15em] mb-1">COFFIN</h2>
+				<p class="font-['Montserrat'] text-xs text-gray-500">Modern and sophisticated style</p>
+			</div>
+		</div>
+		
+		<div class="product-grid">
+			<div class="relative overflow-hidden rounded-lg shadow-md hover:shadow-2xl transition-all duration-500 group cursor-pointer">
+				<div class="aspect-[3/4] overflow-hidden bg-gray-50">
+					<img src="public/images/coffin1.jpg" alt="Coffin 1" class="w-full h-full object-cover transform group-hover:scale-110 transition-all duration-700" />
+				</div>
+				<div class="absolute inset-0 bg-gradient-to-t from-pink-900/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+				<div class="absolute bottom-4 left-4 right-4 transform translate-y-full group-hover:translate-y-0 transition-transform duration-500">
+					<p class="font-['Bodoni_Moda'] text-white text-sm tracking-[0.15em] drop-shadow-lg">COFFIN 01</p>
+				</div>
+			</div>
+			<div class="relative overflow-hidden rounded-lg shadow-md hover:shadow-2xl transition-all duration-500 group cursor-pointer">
+				<div class="aspect-[3/4] overflow-hidden bg-gray-50">
+					<img src="public/images/coffin2.jpg" alt="Coffin 2" class="w-full h-full object-cover transform group-hover:scale-110 transition-all duration-700" />
+				</div>
+				<div class="absolute inset-0 bg-gradient-to-t from-pink-900/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+				<div class="absolute bottom-4 left-4 right-4 transform translate-y-full group-hover:translate-y-0 transition-transform duration-500">
+					<p class="font-['Bodoni_Moda'] text-white text-sm tracking-[0.15em] drop-shadow-lg">COFFIN 02</p>
+				</div>
+			</div>
+			<div class="relative overflow-hidden rounded-lg shadow-md hover:shadow-2xl transition-all duration-500 group cursor-pointer">
+				<div class="aspect-[3/4] overflow-hidden bg-gray-50">
+					<img src="public/images/coffin3.jpg" alt="Coffin 3" class="w-full h-full object-cover transform group-hover:scale-110 transition-all duration-700" />
+				</div>
+				<div class="absolute inset-0 bg-gradient-to-t from-pink-900/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+				<div class="absolute bottom-4 left-4 right-4 transform translate-y-full group-hover:translate-y-0 transition-transform duration-500">
+					<p class="font-['Bodoni_Moda'] text-white text-sm tracking-[0.15em] drop-shadow-lg">COFFIN 03</p>
+				</div>
+			</div>
+			<div class="relative overflow-hidden rounded-lg shadow-md hover:shadow-2xl transition-all duration-500 group cursor-pointer">
+				<div class="aspect-[3/4] overflow-hidden bg-gray-50">
+					<img src="public/images/coffin4.jpg" alt="Coffin 4" class="w-full h-full object-cover transform group-hover:scale-110 transition-all duration-700" />
+				</div>
+				<div class="absolute inset-0 bg-gradient-to-t from-pink-900/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+				<div class="absolute bottom-4 left-4 right-4 transform translate-y-full group-hover:translate-y-0 transition-transform duration-500">
+					<p class="font-['Bodoni_Moda'] text-white text-sm tracking-[0.15em] drop-shadow-lg">COFFIN 04</p>
+				</div>
+			</div>
+			<div class="relative overflow-hidden rounded-lg shadow-md hover:shadow-2xl transition-all duration-500 group cursor-pointer">
+				<div class="aspect-[3/4] overflow-hidden bg-gray-50">
+					<img src="public/images/coffin5.jpg" alt="Coffin 5" class="w-full h-full object-cover transform group-hover:scale-110 transition-all duration-700" />
+				</div>
+				<div class="absolute inset-0 bg-gradient-to-t from-pink-900/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+				<div class="absolute bottom-4 left-4 right-4 transform translate-y-full group-hover:translate-y-0 transition-transform duration-500">
+					<p class="font-['Bodoni_Moda'] text-white text-sm tracking-[0.15em] drop-shadow-lg">COFFIN 05</p>
+				</div>
+			</div>
+			<div class="relative overflow-hidden rounded-lg shadow-md hover:shadow-2xl transition-all duration-500 group cursor-pointer">
+				<div class="aspect-[3/4] overflow-hidden bg-gray-50">
+					<img src="public/images/coffin6.jpg" alt="Coffin 6" class="w-full h-full object-cover transform group-hover:scale-110 transition-all duration-700" />
+				</div>
+				<div class="absolute inset-0 bg-gradient-to-t from-pink-900/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+				<div class="absolute bottom-4 left-4 right-4 transform translate-y-full group-hover:translate-y-0 transition-transform duration-500">
+					<p class="font-['Bodoni_Moda'] text-white text-sm tracking-[0.15em] drop-shadow-lg">COFFIN 06</p>
+				</div>
+			</div>
+			<div class="relative overflow-hidden rounded-lg shadow-md hover:shadow-2xl transition-all duration-500 group cursor-pointer">
+				<div class="aspect-[3/4] overflow-hidden bg-gray-50">
+					<img src="public/images/coffin7.jpg" alt="Coffin 7" class="w-full h-full object-cover transform group-hover:scale-110 transition-all duration-700" />
+				</div>
+				<div class="absolute inset-0 bg-gradient-to-t from-pink-900/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+				<div class="absolute bottom-4 left-4 right-4 transform translate-y-full group-hover:translate-y-0 transition-transform duration-500">
+					<p class="font-['Bodoni_Moda'] text-white text-sm tracking-[0.15em] drop-shadow-lg">COFFIN 07</p>
+				</div>
+			</div>
+			<div class="relative overflow-hidden rounded-lg shadow-md hover:shadow-2xl transition-all duration-500 group cursor-pointer">
+				<div class="aspect-[3/4] overflow-hidden bg-gray-50">
+					<img src="public/images/coffin8.jpg" alt="Coffin 8" class="w-full h-full object-cover transform group-hover:scale-110 transition-all duration-700" />
+				</div>
+				<div class="absolute inset-0 bg-gradient-to-t from-pink-900/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+				<div class="absolute bottom-4 left-4 right-4 transform translate-y-full group-hover:translate-y-0 transition-transform duration-500">
+					<p class="font-['Bodoni_Moda'] text-white text-sm tracking-[0.15em] drop-shadow-lg">COFFIN 08</p>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
+
+<!-- ================= SQUARE SECTION ================= -->
+<section class="bg-white">
+	<!-- Hero Image -->
+	<div class="w-full">
+		<img src="public/images/square1.jpg" alt="Square Collection" class="hero-nail-image" />
+	</div>
+	
+	<div class="max-w-[1400px] mx-auto px-4 md:px-6 py-8 md:py-12">
+		<div class="flex items-center justify-between mb-6">
+			<div>
+				<h2 class="font-['Bodoni_Moda'] font-bold text-xl md:text-2xl text-[#7A2E2E] tracking-[0.15em] mb-1">SQUARE</h2>
+				<p class="font-['Montserrat'] text-xs text-gray-500">Bold and contemporary design</p>
+			</div>
+		</div>
+		
+		<div class="product-grid">
+			<div class="relative overflow-hidden rounded-lg shadow-md hover:shadow-2xl transition-all duration-500 group cursor-pointer">
+				<div class="aspect-[3/4] overflow-hidden bg-gray-50">
+					<img src="public/images/square1.jpg" alt="Square 1" class="w-full h-full object-cover transform group-hover:scale-110 transition-all duration-700" />
+				</div>
+				<div class="absolute inset-0 bg-gradient-to-t from-pink-900/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+				<div class="absolute bottom-4 left-4 right-4 transform translate-y-full group-hover:translate-y-0 transition-transform duration-500">
+					<p class="font-['Bodoni_Moda'] text-white text-sm tracking-[0.15em] drop-shadow-lg">SQUARE 01</p>
+				</div>
+			</div>
+			<div class="relative overflow-hidden rounded-lg shadow-md hover:shadow-2xl transition-all duration-500 group cursor-pointer">
+				<div class="aspect-[3/4] overflow-hidden bg-gray-50">
+					<img src="public/images/square2.jpg" alt="Square 2" class="w-full h-full object-cover transform group-hover:scale-110 transition-all duration-700" />
+				</div>
+				<div class="absolute inset-0 bg-gradient-to-t from-pink-900/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+				<div class="absolute bottom-4 left-4 right-4 transform translate-y-full group-hover:translate-y-0 transition-transform duration-500">
+					<p class="font-['Bodoni_Moda'] text-white text-sm tracking-[0.15em] drop-shadow-lg">SQUARE 02</p>
+				</div>
+			</div>
+			<div class="relative overflow-hidden rounded-lg shadow-md hover:shadow-2xl transition-all duration-500 group cursor-pointer">
+				<div class="aspect-[3/4] overflow-hidden bg-gray-50">
+					<img src="public/images/square3.jpg" alt="Square 3" class="w-full h-full object-cover transform group-hover:scale-110 transition-all duration-700" />
+				</div>
+				<div class="absolute inset-0 bg-gradient-to-t from-pink-900/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+				<div class="absolute bottom-4 left-4 right-4 transform translate-y-full group-hover:translate-y-0 transition-transform duration-500">
+					<p class="font-['Bodoni_Moda'] text-white text-sm tracking-[0.15em] drop-shadow-lg">SQUARE 03</p>
+				</div>
+			</div>
+			<div class="relative overflow-hidden rounded-lg shadow-md hover:shadow-2xl transition-all duration-500 group cursor-pointer">
+				<div class="aspect-[3/4] overflow-hidden bg-gray-50">
+					<img src="public/images/square4.jpg" alt="Square 4" class="w-full h-full object-cover transform group-hover:scale-110 transition-all duration-700" />
+				</div>
+				<div class="absolute inset-0 bg-gradient-to-t from-pink-900/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+				<div class="absolute bottom-4 left-4 right-4 transform translate-y-full group-hover:translate-y-0 transition-transform duration-500">
+					<p class="font-['Bodoni_Moda'] text-white text-sm tracking-[0.15em] drop-shadow-lg">SQUARE 04</p>
+				</div>
+			</div>
+			<div class="relative overflow-hidden rounded-lg shadow-md hover:shadow-2xl transition-all duration-500 group cursor-pointer">
+				<div class="aspect-[3/4] overflow-hidden bg-gray-50">
+					<img src="public/images/square5.jpg" alt="Square 5" class="w-full h-full object-cover transform group-hover:scale-110 transition-all duration-700" />
+				</div>
+				<div class="absolute inset-0 bg-gradient-to-t from-pink-900/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+				<div class="absolute bottom-4 left-4 right-4 transform translate-y-full group-hover:translate-y-0 transition-transform duration-500">
+					<p class="font-['Bodoni_Moda'] text-white text-sm tracking-[0.15em] drop-shadow-lg">SQUARE 05</p>
+				</div>
+			</div>
+			<div class="relative overflow-hidden rounded-lg shadow-md hover:shadow-2xl transition-all duration-500 group cursor-pointer">
+				<div class="aspect-[3/4] overflow-hidden bg-gray-50">
+					<img src="public/images/square6.jpg" alt="Square 6" class="w-full h-full object-cover transform group-hover:scale-110 transition-all duration-700" />
+				</div>
+				<div class="absolute inset-0 bg-gradient-to-t from-pink-900/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+				<div class="absolute bottom-4 left-4 right-4 transform translate-y-full group-hover:translate-y-0 transition-transform duration-500">
+					<p class="font-['Bodoni_Moda'] text-white text-sm tracking-[0.15em] drop-shadow-lg">SQUARE 06</p>
+				</div>
+			</div>
+			<div class="relative overflow-hidden rounded-lg shadow-md hover:shadow-2xl transition-all duration-500 group cursor-pointer">
+				<div class="aspect-[3/4] overflow-hidden bg-gray-50">
+					<img src="public/images/square7.jpg" alt="Square 7" class="w-full h-full object-cover transform group-hover:scale-110 transition-all duration-700" />
+				</div>
+				<div class="absolute inset-0 bg-gradient-to-t from-pink-900/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+				<div class="absolute bottom-4 left-4 right-4 transform translate-y-full group-hover:translate-y-0 transition-transform duration-500">
+					<p class="font-['Bodoni_Moda'] text-white text-sm tracking-[0.15em] drop-shadow-lg">SQUARE 07</p>
+				</div>
+			</div>
+			<div class="relative overflow-hidden rounded-lg shadow-md hover:shadow-2xl transition-all duration-500 group cursor-pointer">
+				<div class="aspect-[3/4] overflow-hidden bg-gray-50">
+					<img src="public/images/square8.jpg" alt="Square 8" class="w-full h-full object-cover transform group-hover:scale-110 transition-all duration-700" />
+				</div>
+				<div class="absolute inset-0 bg-gradient-to-t from-pink-900/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+				<div class="absolute bottom-4 left-4 right-4 transform translate-y-full group-hover:translate-y-0 transition-transform duration-500">
+					<p class="font-['Bodoni_Moda'] text-white text-sm tracking-[0.15em] drop-shadow-lg">SQUARE 08</p>
+				</div>
+			</div>
+			<div class="relative overflow-hidden rounded-lg shadow-md hover:shadow-2xl transition-all duration-500 group cursor-pointer">
+				<div class="aspect-[3/4] overflow-hidden bg-gray-50">
+					<img src="public/images/square9.jpg" alt="Square 9" class="w-full h-full object-cover transform group-hover:scale-110 transition-all duration-700" />
+				</div>
+				<div class="absolute inset-0 bg-gradient-to-t from-pink-900/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+				<div class="absolute bottom-4 left-4 right-4 transform translate-y-full group-hover:translate-y-0 transition-transform duration-500">
+					<p class="font-['Bodoni_Moda'] text-white text-sm tracking-[0.15em] drop-shadow-lg">SQUARE 09</p>
+				</div>
+			</div>
+			<div class="relative overflow-hidden rounded-lg shadow-md hover:shadow-2xl transition-all duration-500 group cursor-pointer">
+				<div class="aspect-[3/4] overflow-hidden bg-gray-50">
+					<img src="public/images/square10.jpg" alt="Square 10" class="w-full h-full object-cover transform group-hover:scale-110 transition-all duration-700" />
+				</div>
+				<div class="absolute inset-0 bg-gradient-to-t from-pink-900/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+				<div class="absolute bottom-4 left-4 right-4 transform translate-y-full group-hover:translate-y-0 transition-transform duration-500">
+					<p class="font-['Bodoni_Moda'] text-white text-sm tracking-[0.15em] drop-shadow-lg">SQUARE 10</p>
+				</div>
+			</div>
+			<div class="relative overflow-hidden rounded-lg shadow-md hover:shadow-2xl transition-all duration-500 group cursor-pointer">
+				<div class="aspect-[3/4] overflow-hidden bg-gray-50">
+					<img src="public/images/square11.jpg" alt="Square 11" class="w-full h-full object-cover transform group-hover:scale-110 transition-all duration-700" />
+				</div>
+				<div class="absolute inset-0 bg-gradient-to-t from-pink-900/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+				<div class="absolute bottom-4 left-4 right-4 transform translate-y-full group-hover:translate-y-0 transition-transform duration-500">
+					<p class="font-['Bodoni_Moda'] text-white text-sm tracking-[0.15em] drop-shadow-lg">SQUARE 11</p>
+				</div>
+			</div>
+			<div class="relative overflow-hidden rounded-lg shadow-md hover:shadow-2xl transition-all duration-500 group cursor-pointer">
+				<div class="aspect-[3/4] overflow-hidden bg-gray-50">
+					<img src="public/images/square12.jpg" alt="Square 12" class="w-full h-full object-cover transform group-hover:scale-110 transition-all duration-700" />
+				</div>
+				<div class="absolute inset-0 bg-gradient-to-t from-pink-900/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+				<div class="absolute bottom-4 left-4 right-4 transform translate-y-full group-hover:translate-y-0 transition-transform duration-500">
+					<p class="font-['Bodoni_Moda'] text-white text-sm tracking-[0.15em] drop-shadow-lg">SQUARE 12</p>
+				</div>
+			</div>
+			<div class="relative overflow-hidden rounded-lg shadow-md hover:shadow-2xl transition-all duration-500 group cursor-pointer">
+				<div class="aspect-[3/4] overflow-hidden bg-gray-50">
+					<img src="public/images/square13.jpg" alt="Square 13" class="w-full h-full object-cover transform group-hover:scale-110 transition-all duration-700" />
+				</div>
+				<div class="absolute inset-0 bg-gradient-to-t from-pink-900/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+				<div class="absolute bottom-4 left-4 right-4 transform translate-y-full group-hover:translate-y-0 transition-transform duration-500">
+					<p class="font-['Bodoni_Moda'] text-white text-sm tracking-[0.15em] drop-shadow-lg">SQUARE 13</p>
+				</div>
+			</div>
+			<div class="relative overflow-hidden rounded-lg shadow-md hover:shadow-2xl transition-all duration-500 group cursor-pointer">
+				<div class="aspect-[3/4] overflow-hidden bg-gray-50">
+					<img src="public/images/square14.jpg" alt="Square 14" class="w-full h-full object-cover transform group-hover:scale-110 transition-all duration-700" />
+				</div>
+				<div class="absolute inset-0 bg-gradient-to-t from-pink-900/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+				<div class="absolute bottom-4 left-4 right-4 transform translate-y-full group-hover:translate-y-0 transition-transform duration-500">
+					<p class="font-['Bodoni_Moda'] text-white text-sm tracking-[0.15em] drop-shadow-lg">SQUARE 14</p>
+				</div>
+			</div>
+			<div class="relative overflow-hidden rounded-lg shadow-md hover:shadow-2xl transition-all duration-500 group cursor-pointer">
+				<div class="aspect-[3/4] overflow-hidden bg-gray-50">
+					<img src="public/images/square15.jpg" alt="Square 15" class="w-full h-full object-cover transform group-hover:scale-110 transition-all duration-700" />
+				</div>
+				<div class="absolute inset-0 bg-gradient-to-t from-pink-900/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+				<div class="absolute bottom-4 left-4 right-4 transform translate-y-full group-hover:translate-y-0 transition-transform duration-500">
+					<p class="font-['Bodoni_Moda'] text-white text-sm tracking-[0.15em] drop-shadow-lg">SQUARE 15</p>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
+
+<!-- ================= STILETTOS SECTION ================= -->
+<section class="bg-gray-50">
+	<!-- Hero Image -->
+	<div class="w-full">
+		<img src="public/images/stilettos1.jpg" alt="Stilettos Collection" class="hero-nail-image" />
+	</div>
+	
+	<div class="max-w-[1400px] mx-auto px-4 md:px-6 py-8 md:py-12">
+		<div class="flex items-center justify-between mb-6">
+			<div>
+				<h2 class="font-['Bodoni_Moda'] font-bold text-xl md:text-2xl text-[#7A2E2E] tracking-[0.15em] mb-1">STILETTOS</h2>
+				<p class="font-['Montserrat'] text-xs text-gray-500">Dramatic and fierce look</p>
+			</div>
+		</div>
+		
+		<div class="product-grid">
+			<div class="relative overflow-hidden rounded-lg shadow-md hover:shadow-2xl transition-all duration-500 group cursor-pointer">
+				<div class="aspect-[3/4] overflow-hidden bg-gray-50">
+					<img src="public/images/stilettos1.jpg" alt="Stilettos 1" class="w-full h-full object-cover transform group-hover:scale-110 transition-all duration-700" />
+				</div>
+				<div class="absolute inset-0 bg-gradient-to-t from-pink-900/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+				<div class="absolute bottom-4 left-4 right-4 transform translate-y-full group-hover:translate-y-0 transition-transform duration-500">
+					<p class="font-['Bodoni_Moda'] text-white text-sm tracking-[0.15em] drop-shadow-lg">STILETTOS 01</p>
+				</div>
+			</div>
+			<div class="relative overflow-hidden rounded-lg shadow-md hover:shadow-2xl transition-all duration-500 group cursor-pointer">
+				<div class="aspect-[3/4] overflow-hidden bg-gray-50">
+					<img src="public/images/stilettos2.jpg" alt="Stilettos 2" class="w-full h-full object-cover transform group-hover:scale-110 transition-all duration-700" />
+				</div>
+				<div class="absolute inset-0 bg-gradient-to-t from-pink-900/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+				<div class="absolute bottom-4 left-4 right-4 transform translate-y-full group-hover:translate-y-0 transition-transform duration-500">
+					<p class="font-['Bodoni_Moda'] text-white text-sm tracking-[0.15em] drop-shadow-lg">STILETTOS 02</p>
+				</div>
+			</div>
+			<div class="relative overflow-hidden rounded-lg shadow-md hover:shadow-2xl transition-all duration-500 group cursor-pointer">
+				<div class="aspect-[3/4] overflow-hidden bg-gray-50">
+					<img src="public/images/stilettos3.jpg" alt="Stilettos 3" class="w-full h-full object-cover transform group-hover:scale-110 transition-all duration-700" />
+				</div>
+				<div class="absolute inset-0 bg-gradient-to-t from-pink-900/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+				<div class="absolute bottom-4 left-4 right-4 transform translate-y-full group-hover:translate-y-0 transition-transform duration-500">
+					<p class="font-['Bodoni_Moda'] text-white text-sm tracking-[0.15em] drop-shadow-lg">STILETTOS 03</p>
+				</div>
+			</div>
+			<div class="relative overflow-hidden rounded-lg shadow-md hover:shadow-2xl transition-all duration-500 group cursor-pointer">
+				<div class="aspect-[3/4] overflow-hidden bg-gray-50">
+					<img src="public/images/stilettos4.jpg" alt="Stilettos 4" class="w-full h-full object-cover transform group-hover:scale-110 transition-all duration-700" />
+				</div>
+				<div class="absolute inset-0 bg-gradient-to-t from-pink-900/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+				<div class="absolute bottom-4 left-4 right-4 transform translate-y-full group-hover:translate-y-0 transition-transform duration-500">
+					<p class="font-['Bodoni_Moda'] text-white text-sm tracking-[0.15em] drop-shadow-lg">STILETTOS 04</p>
+				</div>
+			</div>
+			<div class="relative overflow-hidden rounded-lg shadow-md hover:shadow-2xl transition-all duration-500 group cursor-pointer">
+				<div class="aspect-[3/4] overflow-hidden bg-gray-50">
+					<img src="public/images/stilettos5.jpg" alt="Stilettos 5" class="w-full h-full object-cover transform group-hover:scale-110 transition-all duration-700" />
+				</div>
+				<div class="absolute inset-0 bg-gradient-to-t from-pink-900/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+				<div class="absolute bottom-4 left-4 right-4 transform translate-y-full group-hover:translate-y-0 transition-transform duration-500">
+					<p class="font-['Bodoni_Moda'] text-white text-sm tracking-[0.15em] drop-shadow-lg">STILETTOS 05</p>
+				</div>
+			</div>
+			<div class="relative overflow-hidden rounded-lg shadow-md hover:shadow-2xl transition-all duration-500 group cursor-pointer">
+				<div class="aspect-[3/4] overflow-hidden bg-gray-50">
+					<img src="public/images/stilettos6.jpg" alt="Stilettos 6" class="w-full h-full object-cover transform group-hover:scale-110 transition-all duration-700" />
+				</div>
+				<div class="absolute inset-0 bg-gradient-to-t from-pink-900/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+				<div class="absolute bottom-4 left-4 right-4 transform translate-y-full group-hover:translate-y-0 transition-transform duration-500">
+					<p class="font-['Bodoni_Moda'] text-white text-sm tracking-[0.15em] drop-shadow-lg">STILETTOS 06</p>
+				</div>
+			</div>
+			<div class="relative overflow-hidden rounded-lg shadow-md hover:shadow-2xl transition-all duration-500 group cursor-pointer">
+				<div class="aspect-[3/4] overflow-hidden bg-gray-50">
+					<img src="public/images/stilettos7.jpg" alt="Stilettos 7" class="w-full h-full object-cover transform group-hover:scale-110 transition-all duration-700" />
+				</div>
+				<div class="absolute inset-0 bg-gradient-to-t from-pink-900/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+				<div class="absolute bottom-4 left-4 right-4 transform translate-y-full group-hover:translate-y-0 transition-transform duration-500">
+					<p class="font-['Bodoni_Moda'] text-white text-sm tracking-[0.15em] drop-shadow-lg">STILETTOS 07</p>
+				</div>
+			</div>
+			<div class="relative overflow-hidden rounded-lg shadow-md hover:shadow-2xl transition-all duration-500 group cursor-pointer">
+				<div class="aspect-[3/4] overflow-hidden bg-gray-50">
+					<img src="public/images/stilettos8.jpg" alt="Stilettos 8" class="w-full h-full object-cover transform group-hover:scale-110 transition-all duration-700" />
+				</div>
+				<div class="absolute inset-0 bg-gradient-to-t from-pink-900/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+				<div class="absolute bottom-4 left-4 right-4 transform translate-y-full group-hover:translate-y-0 transition-transform duration-500">
+					<p class="font-['Bodoni_Moda'] text-white text-sm tracking-[0.15em] drop-shadow-lg">STILETTOS 08</p>
+				</div>
+			</div>
+			<div class="relative overflow-hidden rounded-lg shadow-md hover:shadow-2xl transition-all duration-500 group cursor-pointer">
+				<div class="aspect-[3/4] overflow-hidden bg-gray-50">
+					<img src="public/images/stilettos9.jpg" alt="Stilettos 9" class="w-full h-full object-cover transform group-hover:scale-110 transition-all duration-700" />
+				</div>
+				<div class="absolute inset-0 bg-gradient-to-t from-pink-900/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+				<div class="absolute bottom-4 left-4 right-4 transform translate-y-full group-hover:translate-y-0 transition-transform duration-500">
+					<p class="font-['Bodoni_Moda'] text-white text-sm tracking-[0.15em] drop-shadow-lg">STILETTOS 09</p>
+				</div>
+			</div>
+			<div class="relative overflow-hidden rounded-lg shadow-md hover:shadow-2xl transition-all duration-500 group cursor-pointer">
+				<div class="aspect-[3/4] overflow-hidden bg-gray-50">
+					<img src="public/images/stilettos10.jpg" alt="Stilettos 10" class="w-full h-full object-cover transform group-hover:scale-110 transition-all duration-700" />
+				</div>
+				<div class="absolute inset-0 bg-gradient-to-t from-pink-900/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+				<div class="absolute bottom-4 left-4 right-4 transform translate-y-full group-hover:translate-y-0 transition-transform duration-500">
+					<p class="font-['Bodoni_Moda'] text-white text-sm tracking-[0.15em] drop-shadow-lg">STILETTOS 10</p>
+				</div>
+			</div>
+			<div class="relative overflow-hidden rounded-lg shadow-md hover:shadow-2xl transition-all duration-500 group cursor-pointer">
+				<div class="aspect-[3/4] overflow-hidden bg-gray-50">
+					<img src="public/images/stilettos11.jpg" alt="Stilettos 11" class="w-full h-full object-cover transform group-hover:scale-110 transition-all duration-700" />
+				</div>
+				<div class="absolute inset-0 bg-gradient-to-t from-pink-900/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+				<div class="absolute bottom-4 left-4 right-4 transform translate-y-full group-hover:translate-y-0 transition-transform duration-500">
+					<p class="font-['Bodoni_Moda'] text-white text-sm tracking-[0.15em] drop-shadow-lg">STILETTOS 11</p>
+				</div>
+			</div>
+			<div class="relative overflow-hidden rounded-lg shadow-md hover:shadow-2xl transition-all duration-500 group cursor-pointer">
+				<div class="aspect-[3/4] overflow-hidden bg-gray-50">
+					<img src="public/images/stilettos12.jpg" alt="Stilettos 12" class="w-full h-full object-cover transform group-hover:scale-110 transition-all duration-700" />
+				</div>
+				<div class="absolute inset-0 bg-gradient-to-t from-pink-900/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+				<div class="absolute bottom-4 left-4 right-4 transform translate-y-full group-hover:translate-y-0 transition-transform duration-500">
+					<p class="font-['Bodoni_Moda'] text-white text-sm tracking-[0.15em] drop-shadow-lg">STILETTOS 12</p>
+				</div>
+			</div>
+			<div class="relative overflow-hidden rounded-lg shadow-md hover:shadow-2xl transition-all duration-500 group cursor-pointer">
+				<div class="aspect-[3/4] overflow-hidden bg-gray-50">
+					<img src="public/images/stilettos13.jpg" alt="Stilettos 13" class="w-full h-full object-cover transform group-hover:scale-110 transition-all duration-700" />
+				</div>
+				<div class="absolute inset-0 bg-gradient-to-t from-pink-900/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+				<div class="absolute bottom-4 left-4 right-4 transform translate-y-full group-hover:translate-y-0 transition-transform duration-500">
+					<p class="font-['Bodoni_Moda'] text-white text-sm tracking-[0.15em] drop-shadow-lg">STILETTOS 13</p>
+				</div>
+			</div>
+			<div class="relative overflow-hidden rounded-lg shadow-md hover:shadow-2xl transition-all duration-500 group cursor-pointer">
+				<div class="aspect-[3/4] overflow-hidden bg-gray-50">
+					<img src="public/images/stilettos14.jpg" alt="Stilettos 14" class="w-full h-full object-cover transform group-hover:scale-110 transition-all duration-700" />
+				</div>
+				<div class="absolute inset-0 bg-gradient-to-t from-pink-900/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+				<div class="absolute bottom-4 left-4 right-4 transform translate-y-full group-hover:translate-y-0 transition-transform duration-500">
+					<p class="font-['Bodoni_Moda'] text-white text-sm tracking-[0.15em] drop-shadow-lg">STILETTOS 14</p>
+				</div>
+			</div>
+			<div class="relative overflow-hidden rounded-lg shadow-md hover:shadow-2xl transition-all duration-500 group cursor-pointer">
+				<div class="aspect-[3/4] overflow-hidden bg-gray-50">
+					<img src="public/images/stilettos15.jpg" alt="Stilettos 15" class="w-full h-full object-cover transform group-hover:scale-110 transition-all duration-700" />
+				</div>
+				<div class="absolute inset-0 bg-gradient-to-t from-pink-900/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+				<div class="absolute bottom-4 left-4 right-4 transform translate-y-full group-hover:translate-y-0 transition-transform duration-500">
+					<p class="font-['Bodoni_Moda'] text-white text-sm tracking-[0.15em] drop-shadow-lg">STILETTOS 15</p>
+				</div>
+			</div>
+			<div class="relative overflow-hidden rounded-lg shadow-md hover:shadow-2xl transition-all duration-500 group cursor-pointer">
+				<div class="aspect-[3/4] overflow-hidden bg-gray-50">
+					<img src="public/images/stilettos16.jpg" alt="Stilettos 16" class="w-full h-full object-cover transform group-hover:scale-110 transition-all duration-700" />
+				</div>
+				<div class="absolute inset-0 bg-gradient-to-t from-pink-900/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+				<div class="absolute bottom-4 left-4 right-4 transform translate-y-full group-hover:translate-y-0 transition-transform duration-500">
+					<p class="font-['Bodoni_Moda'] text-white text-sm tracking-[0.15em] drop-shadow-lg">STILETTOS 16</p>
+				</div>
+			</div>
+			<div class="relative overflow-hidden rounded-lg shadow-md hover:shadow-2xl transition-all duration-500 group cursor-pointer">
+				<div class="aspect-[3/4] overflow-hidden bg-gray-50">
+					<img src="public/images/stilettos17.jpg" alt="Stilettos 17" class="w-full h-full object-cover transform group-hover:scale-110 transition-all duration-700" />
+				</div>
+				<div class="absolute inset-0 bg-gradient-to-t from-pink-900/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+				<div class="absolute bottom-4 left-4 right-4 transform translate-y-full group-hover:translate-y-0 transition-transform duration-500">
+					<p class="font-['Bodoni_Moda'] text-white text-sm tracking-[0.15em] drop-shadow-lg">STILETTOS 17</p>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
+
+<!-- ================= OUR GALLERY SECTION ================= -->
+<section class="bg-white py-12 md:py-16">
+	<div class="max-w-[1400px] mx-auto px-4 md:px-6">
+		<div class="text-center mb-8">
+			<h2 class="font-['Bodoni_Moda'] font-bold text-3xl md:text-4xl text-[#7A2E2E] tracking-[0.2em] mb-2">OUR GALLERY</h2>
+			<p class="font-['Montserrat'] text-xs text-gray-500">Behind the scenes and customer favorites</p>
+		</div>
+		
+		<div class="scroll-container">
+			<div class="gallery-card">
+				<div class="relative overflow-hidden rounded-lg shadow-lg hover:shadow-2xl transition-all duration-500 h-full group cursor-pointer">
+					<img src="public/images/ourgallery1.jpg" alt="Gallery 1" class="w-full h-full object-cover transform group-hover:scale-110 transition-all duration-700" />
+					<div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+				</div>
+			</div>
+			<div class="gallery-card">
+				<div class="relative overflow-hidden rounded-lg shadow-lg hover:shadow-2xl transition-all duration-500 h-full group cursor-pointer">
+					<img src="public/images/ourgallery2.jpg" alt="Gallery 2" class="w-full h-full object-cover transform group-hover:scale-110 transition-all duration-700" />
+					<div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+				</div>
+			</div>
+			<div class="gallery-card">
+				<div class="relative overflow-hidden rounded-lg shadow-lg hover:shadow-2xl transition-all duration-500 h-full group cursor-pointer">
+					<img src="public/images/ourgallery3.jpg" alt="Gallery 3" class="w-full h-full object-cover transform group-hover:scale-110 transition-all duration-700" />
+					<div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+				</div>
+			</div>
+			<div class="gallery-card">
+				<div class="relative overflow-hidden rounded-lg shadow-lg hover:shadow-2xl transition-all duration-500 h-full group cursor-pointer">
+					<img src="public/images/ourgallery4.jpg" alt="Gallery 4" class="w-full h-full object-cover transform group-hover:scale-110 transition-all duration-700" />
+					<div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+				</div>
+			</div>
+			<div class="gallery-card">
+				<div class="relative overflow-hidden rounded-lg shadow-lg hover:shadow-2xl transition-all duration-500 h-full group cursor-pointer">
+					<img src="public/images/ourgallery5.jpg" alt="Gallery 5" class="w-full h-full object-cover transform group-hover:scale-110 transition-all duration-700" />
+					<div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
+
+<!-- ================= FOOTER ================= -->
+<footer class="bg-white border-t border-gray-100 relative overflow-hidden">
+	<div class="absolute inset-0 bg-pink-50/50"></div>
+	<div class="relative z-10 max-w-[1400px] mx-auto px-4 md:px-6 py-12 md:py-16">
+		<div class="flex flex-col md:flex-row flex-wrap items-center justify-between gap-6 md:gap-8 lg:gap-12">
+			<!-- ONNAILS Logo Text -->
+			<div class="flex-shrink-0 group">
+				<div class="relative">
+					<div class="absolute -inset-2 bg-gradient-to-r from-[#CE8A97] to-[#D4A5A5] rounded-xl blur opacity-0 group-hover:opacity-20 transition-opacity duration-500"></div>
+					<img src="public/images/onnailss.png" class="relative h-32 md:h-40 w-auto object-contain transform group-hover:scale-105 transition-transform duration-500" alt="ONNAILS">
+				</div>
+			</div>
+			
+			<!-- Menu -->
+			<div class="flex-shrink-0">
+				<h3 class="font-['Kalnia'] font-bold text-lg md:text-xl text-[#634A45] tracking-[0.2em] mb-4 flex items-center gap-2">
+					<span class="w-8 h-0.5 bg-gradient-to-r from-[#CE8A97] to-[#D4A5A5] rounded-full"></span>
+					MENU
+				</h3>
+				<ul class="space-y-2 font-['Kalnia'] font-medium text-base md:text-lg tracking-[0.1em] text-[#634A45]">
+					<li><a href="/booking.html" class="footer-link">BOOKING</a></li>
+					<li><a href="/contact.html" class="footer-link">CONTACT</a></li>
+				</ul>
+			</div>
+			
+			<!-- Social Media -->
+			<div class="flex-shrink-0">
+				<h3 class="font-['Kalnia'] font-bold text-lg md:text-xl text-[#634A45] tracking-[0.2em] mb-4 flex items-center gap-2">
+					<span class="w-8 h-0.5 bg-gradient-to-r from-[#CE8A97] to-[#D4A5A5] rounded-full"></span>
+					SOCIAL MEDIA
+				</h3>
+				<ul class="space-y-2 font-['Kalnia'] font-medium text-base md:text-lg tracking-[0.1em] text-[#634A45]">
+					<li><a href="https://www.instagram.com/onnailssss" target="_blank" class="footer-link flex items-center gap-3"><i class="fa-brands fa-instagram text-lg"></i> Instagram</a></li>
+					<li><a href="https://www.tiktok.com/@onnailsss_" target="_blank" class="footer-link flex items-center gap-3"><i class="fa-brands fa-tiktok text-lg"></i> TikTok</a></li>
+				</ul>
+			</div>
+			
+			<!-- Logo Image -->
+			<div class="flex items-center flex-shrink-0">
+				<div class="relative group">
+					<div class="absolute -inset-1 bg-gradient-to-r from-[#CE8A97] to-[#D4A5A5] rounded-full blur opacity-30 group-hover:opacity-60 transition-opacity duration-500"></div>
+					<div class="relative w-28 h-28 md:w-32 md:h-32 rounded-full overflow-hidden shadow-xl bg-white p-3 transform group-hover:scale-110 group-hover:rotate-6 transition-all duration-500">
+						<img src="public/images/logoonnails.png" class="w-full h-full object-contain" alt="ONNAILS Logo">
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="mt-12 pt-8 border-t border-gray-200 text-center">
+			<p class="font-['Montserrat'] text-sm text-gray-500">© 2026 ONNAILS. All rights reserved.</p>
+		</div>
+	</div>
+</footer>
+
+<script>
+	// Navbar scroll effect
+	const navEl = document.querySelector('.onnails-navbar');
+	if (navEl) {
+		window.addEventListener('scroll', () => {
+			navEl.classList.toggle('scrolled', window.scrollY > 10);
+		});
+	}
+
+	console.log('✨ ONNAILS Press-On Page Loaded!');
+</script>
+
+</body>
+</html>

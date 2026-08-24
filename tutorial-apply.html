@@ -3,20 +3,248 @@
 <head>
 	<meta charset="UTF-8" />
 	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-	<title>How to Apply - ONNAILS</title>
-	<meta http-equiv="refresh" content="0; url=./index.html">
-	<link href="https://fonts.googleapis.com/css2?family=Kalnia:wght@500&display=swap" rel="stylesheet">
+	<title>How to Apply Your Nails - ONNAILS</title>
+	<script src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
+	<link rel="stylesheet" href="public/css/style.css">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+	<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Montserrat:wght@300;400;500;600&family=Bodoni+Moda:wght@400;600;700;800&family=Kalnia:wght@500&display=swap" rel="stylesheet">
+	<script src="https://cdn.tailwindcss.com"></script>
 	<style>
-		body { font-family: 'Kalnia', serif; display: flex; align-items: center; justify-content: center; min-height: 100vh; background: #f2d6d3; }
-		.message { text-align: center; }
-		a { color: #7A2E2E; }
+		/* Dropdown Menu Styling */
+		.dropdown-menu {
+			min-width: 200px;
+			box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+		}
+
+		.dropdown-menu a {
+			display: block;
+			padding: 12px 20px;
+			transition: all 0.3s ease;
+			border-left: 3px solid transparent;
+		}
+
+		.dropdown-menu a:hover {
+			background: linear-gradient(to right, #FFF5F7, #FFF);
+			border-left-color: #CE8A97;
+			padding-left: 24px;
+			color: #CE8A97;
+		}
+
+		@keyframes dropdownSlide {
+			from {
+				opacity: 0;
+				transform: translateY(-10px);
+			}
+			to {
+				opacity: 1;
+				transform: translateY(0);
+			}
+		}
+
+		.dropdown-animate {
+			animation: dropdownSlide 0.3s ease-out;
+		}
+
+		.image-card {
+			border-radius: 2rem;
+			overflow: hidden;
+			box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+		}
 	</style>
 </head>
-<body>
-	<div class="message">
-		<h1>How to Apply</h1>
-		<p>Redirecting to homepage...</p>
-		<p><a href="./index.html">Click here if not redirected</a></p>
+<body class="bg-white">
+
+<!-- ================= NAVBAR (WHITE) ================= -->
+<header class="onnails-navbar">
+	<div class="max-w-[1440px] mx-auto h-[70px] flex items-center px-3 md:px-6 relative">
+		<!-- Left Menu - Hidden on mobile -->
+		<nav class="hidden lg:flex gap-6 font-['Bodoni_Moda'] text-[11px] tracking-[0.15em] text-gray-800">
+			<a href="/" class="hover:text-[#CE8A97]">HOME</a>
+			<a href="/our-service.html" class="hover:text-[#CE8A97]">OUR SERVICE</a>
+			<a href="/press-on.html" class="hover:text-[#CE8A97]">PRESS-ON</a>
+			
+			<!-- Product Dropdown -->
+			<div class="relative" x-data="{ open: false }" @mouseenter="open = true" @mouseleave="open = false">
+				<button class="hover:text-[#CE8A97] flex items-center gap-1 transition-colors">
+					PRODUCT
+					<i class="fas fa-chevron-down text-[10px] transition-transform duration-300" :class="{ 'rotate-180': open }"></i>
+				</button>
+				<div x-show="open" 
+				     x-transition:enter="transition ease-out duration-200"
+				     x-transition:enter-start="opacity-0 transform scale-95"
+				     x-transition:enter-end="opacity-100 transform scale-100"
+				     x-transition:leave="transition ease-in duration-150"
+				     x-transition:leave-start="opacity-100 transform scale-100"
+				     x-transition:leave-end="opacity-0 transform scale-95"
+				     class="absolute top-full left-0 mt-2 bg-white rounded-xl shadow-2xl overflow-hidden dropdown-menu dropdown-animate z-50"
+				     style="display: none;">
+					<a href="/product/almond.html" class="font-['Bodoni_Moda'] text-[11px] tracking-[0.15em] text-gray-800">
+						<i class="fas fa-gem text-pink-400 mr-2"></i> ALMOND
+					</a>
+					<a href="/product/coffin.html" class="font-['Bodoni_Moda'] text-[11px] tracking-[0.15em] text-gray-800">
+						<i class="fas fa-chess-queen text-pink-400 mr-2"></i> COFFIN
+					</a>
+					<a href="/product/square.html" class="font-['Bodoni_Moda'] text-[11px] tracking-[0.15em] text-gray-800">
+						<i class="fas fa-square text-pink-400 mr-2"></i> SQUARE
+					</a>
+					<a href="/product/stilettos.html" class="font-['Bodoni_Moda'] text-[11px] tracking-[0.15em] text-gray-800">
+						<i class="fas fa-crown text-pink-400 mr-2"></i> STILETTOS
+					</a>
+				</div>
+			</div>
+			
+			<a href="/tutorial.html" class="text-[#CE8A97]">TUTORIALS</a>
+		</nav>
+		<!-- Center Logo -->
+		<div class="absolute left-1/2 -translate-x-1/2">
+			<img src="public/images/onnailss.png" alt="ONNAILS" class="h-16 md:h-20 lg:h-24" />
+		</div>
+		<!-- Right Menu -->
+		<div class="ml-auto flex items-center gap-3 md:gap-6 font-['Bodoni_Moda'] text-[11px] tracking-[0.15em] text-gray-800">
+			<a href="/collaboration.html" class="hidden lg:inline hover:text-[#CE8A97]">COLLABORATIONS</a>
+			<button class="hover:text-[#CE8A97]"><i class="fa-regular fa-user text-base md:text-lg"></i></button>
+			<button class="hover:text-[#CE8A97]"><i class="fa-solid fa-magnifying-glass text-base md:text-lg"></i></button>
+			<a href="/wishlist.html" class="hover:text-[#CE8A97]"><i class="fa-regular fa-bookmark text-base md:text-lg"></i></a>
+		</div>
 	</div>
+</header>
+
+<!-- ================= MARQUEE BAR ================= -->
+<div class="marquee-bar">
+	<div class="marquee-track">
+		<span>SCHEDULE YOUR CUSTOM NAIL DESIGN SESSION NOW</span>
+		<span>SCHEDULE YOUR CUSTOM NAIL DESIGN SESSION NOW</span>
+		<span>SCHEDULE YOUR CUSTOM NAIL DESIGN SESSION NOW</span>
+	</div>
+</div>
+
+<!-- ================= TUTORIALS BANNER ================= -->
+<section class="bg-white py-8">
+	<div class="text-center">
+		<h2 class="font-['Bodoni_Moda'] italic text-5xl md:text-6xl lg:text-7xl text-[#7A2E2E] tracking-wider">
+			Tutorials
+		</h2>
+	</div>
+</section>
+
+<!-- ================= MAIN CONTENT ================= -->
+<section class="bg-white py-12 md:py-16">
+	<div class="max-w-[1400px] mx-auto px-4 md:px-6">
+		<div class="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-start">
+			<!-- Left: Content -->
+			<div>
+				<h1 class="font-['Bodoni_Moda'] font-bold text-3xl md:text-4xl lg:text-5xl text-[#7A2E2E] tracking-[0.05em] mb-8">
+					HOW TO APPLY YOUR<br />NAILS
+				</h1>
+
+				<!-- Step 1 -->
+				<div class="mb-8">
+					<h3 class="font-['Bodoni_Moda'] font-bold text-xl md:text-2xl text-[#7A2E2E] mb-3">
+						1. Natural Nail Preparation (Prep):
+					</h3>
+					<p class="font-['Montserrat'] text-sm md:text-base text-gray-700 leading-relaxed">
+						Thoroughly clean your natural nails to remove oil, cuticles, and natural shine. Push back or trim cuticles, lightly buff the nail surface, and then wipe with alcohol or a nail cleanser. Proper prep ensures the artificial nail adheres strongly and lasts longer.
+					</p>
+				</div>
+
+				<!-- Step 2 -->
+				<div class="mb-8">
+					<h3 class="font-['Bodoni_Moda'] font-bold text-xl md:text-2xl text-[#7A2E2E] mb-3">
+						2. Adhesive Application:
+					</h3>
+					<p class="font-['Montserrat'] text-sm md:text-base text-gray-700 leading-relaxed">
+						Determine the type of adhesive you will use (liquid nail glue for maximum durability, or adhesive tabs for temporary wear). Apply the adhesive sufficiently either on the underside of the faux nail (the part that will stick to your natural nail), directly onto your natural nail, or both if using liquid glue.
+					</p>
+				</div>
+
+				<!-- Step 3 -->
+				<div>
+					<h3 class="font-['Bodoni_Moda'] font-bold text-xl md:text-2xl text-[#7A2E2E] mb-3">
+						3. Placement and Pressing:
+					</h3>
+					<p class="font-['Montserrat'] text-sm md:text-base text-gray-700 leading-relaxed">
+						Position the artificial nail precisely just under the cuticle line (without touching the skin) and ensure it is straight. Press the nail down firmly for 10 to 30 seconds (depending on the glue type) to eliminate air pockets and ensure the adhesive fully bonds. Avoid contact with water for at least 1-2 hours after application.
+					</p>
+				</div>
+			</div>
+
+			<!-- Right: Image Card -->
+			<div class="image-card">
+				<img src="public/images/3dnail.jpg" alt="How to Apply Your Nails" class="w-full h-auto object-cover" onerror="this.src='public/images/coffin1.jpg'" />
+			</div>
+		</div>
+	</div>
+</section>
+
+<!-- ================= RED DIVIDER ================= -->
+<div class="bg-[#7A2E2E] h-16 md:h-20"></div>
+
+<!-- ================= FOOTER ================= -->
+<footer class="bg-white border-t border-gray-100 relative overflow-hidden">
+	<div class="absolute inset-0 bg-pink-50/50"></div>
+	<div class="relative z-10 max-w-[1400px] mx-auto px-4 md:px-6 py-12 md:py-16">
+		<div class="flex flex-col md:flex-row flex-wrap items-center justify-between gap-6 md:gap-8 lg:gap-12">
+			<!-- ONNAILS Logo Text -->
+			<div class="flex-shrink-0 group">
+				<div class="relative">
+					<div class="absolute -inset-2 bg-gradient-to-r from-[#CE8A97] to-[#D4A5A5] rounded-xl blur opacity-0 group-hover:opacity-20 transition-opacity duration-500"></div>
+					<img src="public/images/onnailss.png" class="relative h-32 md:h-40 w-auto object-contain transform group-hover:scale-105 transition-transform duration-500" alt="ONNAILS">
+				</div>
+			</div>
+			
+			<!-- Menu -->
+			<div class="flex-shrink-0">
+				<h3 class="font-['Kalnia'] font-bold text-lg md:text-xl text-[#634A45] tracking-[0.2em] mb-4 flex items-center gap-2">
+					<span class="w-8 h-0.5 bg-gradient-to-r from-[#CE8A97] to-[#D4A5A5] rounded-full"></span>
+					MENU
+				</h3>
+				<ul class="space-y-2 font-['Kalnia'] font-medium text-base md:text-lg tracking-[0.1em] text-[#634A45]">
+					<li><a href="/booking.html" class="footer-link">BOOKING</a></li>
+					<li><a href="/contact.html" class="footer-link">CONTACT</a></li>
+				</ul>
+			</div>
+			
+			<!-- Social Media -->
+			<div class="flex-shrink-0">
+				<h3 class="font-['Kalnia'] font-bold text-lg md:text-xl text-[#634A45] tracking-[0.2em] mb-4 flex items-center gap-2">
+					<span class="w-8 h-0.5 bg-gradient-to-r from-[#CE8A97] to-[#D4A5A5] rounded-full"></span>
+					SOCIAL MEDIA
+				</h3>
+				<ul class="space-y-2 font-['Kalnia'] font-medium text-base md:text-lg tracking-[0.1em] text-[#634A45]">
+					<li><a href="https://www.instagram.com/onnailssss" target="_blank" class="footer-link flex items-center gap-3"><i class="fa-brands fa-instagram text-lg"></i> Instagram</a></li>
+					<li><a href="https://www.tiktok.com/@onnailsss_" target="_blank" class="footer-link flex items-center gap-3"><i class="fa-brands fa-tiktok text-lg"></i> TikTok</a></li>
+				</ul>
+			</div>
+			
+			<!-- Logo Image -->
+			<div class="flex items-center flex-shrink-0">
+				<div class="relative group">
+					<div class="absolute -inset-1 bg-gradient-to-r from-[#CE8A97] to-[#D4A5A5] rounded-full blur opacity-30 group-hover:opacity-60 transition-opacity duration-500"></div>
+					<div class="relative w-28 h-28 md:w-32 md:h-32 rounded-full overflow-hidden shadow-xl bg-white p-3 transform group-hover:scale-110 group-hover:rotate-6 transition-all duration-500">
+						<img src="public/images/logoonnails.png" class="w-full h-full object-contain" alt="ONNAILS Logo">
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="mt-12 pt-8 border-t border-gray-200 text-center">
+			<p class="font-['Montserrat'] text-sm text-gray-500">© 2026 ONNAILS. All rights reserved.</p>
+		</div>
+	</div>
+</footer>
+
+<script>
+	// Navbar scroll effect
+	const navEl = document.querySelector('.onnails-navbar');
+	if (navEl) {
+		window.addEventListener('scroll', () => {
+			navEl.classList.toggle('scrolled', window.scrollY > 10);
+		});
+	}
+
+	console.log('✨ ONNAILS Tutorial - How to Apply Your Nails');
+</script>
+
+</body>
+</html>
 </body>
 </html>
